@@ -68,7 +68,9 @@ import Layout from "../layouts/Layout.astro";
           <span class="title-line">Coming soon.</span>
         </span>
         <span class="title-line-wrapper">
-          <span class="title-line">A better way to care for your yard is almost here.</span>
+          <span class="title-line"
+            >A better way to care for your yard is almost here.</span
+          >
         </span>
       </h1>
       <div class="hero-buttons">
@@ -153,7 +155,7 @@ import Layout from "../layouts/Layout.astro";
   .contact-info {
     position: absolute;
     top: 2.5rem;
-    right: 20%;
+    right: 10%;
     display: flex;
     align-items: center;
     gap: 1.5rem;
@@ -538,8 +540,8 @@ import Layout from "../layouts/Layout.astro";
       {
         duration: 0.9,
         delay: stagger(0.15),
-        ease: [0.16, 1, 0.3, 1] // Premium cubic-bezier (easeOutExpo)
-      }
+        ease: [0.16, 1, 0.3, 1], // Premium cubic-bezier (easeOutExpo)
+      },
     );
 
     // 2. Animate buttons (fade in and slide up)
@@ -549,8 +551,8 @@ import Layout from "../layouts/Layout.astro";
       {
         duration: 0.8,
         delay: 0.45,
-        ease: "easeOut"
-      }
+        ease: "easeOut",
+      },
     );
 
     // 3. Animate contact info (fade in and slide down)
@@ -560,8 +562,8 @@ import Layout from "../layouts/Layout.astro";
       {
         duration: 0.8,
         delay: 0.6,
-        ease: "easeOut"
-      }
+        ease: "easeOut",
+      },
     );
   }
 
