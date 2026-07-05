@@ -64,7 +64,12 @@ import Layout from "../layouts/Layout.astro";
     <!-- Hero Content -->
     <div class="hero-content">
       <h1 class="hero-title">
-        Coming soon.<br />A better way to care for your yard is almost here.
+        <span class="title-line-wrapper">
+          <span class="title-line">Coming soon.</span>
+        </span>
+        <span class="title-line-wrapper">
+          <span class="title-line">A better way to care for your yard is almost here.</span>
+        </span>
       </h1>
       <div class="hero-buttons">
         <a
@@ -148,11 +153,12 @@ import Layout from "../layouts/Layout.astro";
   .contact-info {
     position: absolute;
     top: 2.5rem;
-    right: 10%;
+    right: 20%;
     display: flex;
     align-items: center;
     gap: 1.5rem;
     z-index: 100;
+    opacity: 0;
   }
 
   .contact-item {
@@ -274,12 +280,28 @@ import Layout from "../layouts/Layout.astro";
 
   .hero-title {
     font-family: "Georgia", "Times New Roman", serif;
-    font-size: clamp(2rem, 5.5vw, 3rem);
+    font-size: clamp(2rem, 5.5vw, 3.2rem);
     font-weight: 400;
     color: #fff;
-    line-height: 1.15;
+    line-height: 1.2;
     letter-spacing: -0.02em;
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .title-line-wrapper {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.1em;
+  }
+
+  .title-line {
+    display: block;
+    transform: translateY(102%);
+    opacity: 0;
   }
 
   .hero-buttons {
@@ -287,6 +309,7 @@ import Layout from "../layouts/Layout.astro";
     gap: 1rem;
     flex-wrap: wrap;
     justify-content: center;
+    opacity: 0;
   }
 
   .btn {
@@ -503,3 +526,48 @@ import Layout from "../layouts/Layout.astro";
     }
   }
 </style>
+
+<script>
+  import { animate, stagger } from "motion";
+
+  function initAnimations() {
+    // 1. Animate title lines (slide up and fade in)
+    animate(
+      ".title-line",
+      { transform: ["translateY(100%)", "translateY(0%)"], opacity: [0, 1] },
+      {
+        duration: 0.9,
+        delay: stagger(0.15),
+        ease: [0.16, 1, 0.3, 1] // Premium cubic-bezier (easeOutExpo)
+      }
+    );
+
+    // 2. Animate buttons (fade in and slide up)
+    animate(
+      ".hero-buttons",
+      { opacity: [0, 1], transform: ["translateY(20px)", "translateY(0px)"] },
+      {
+        duration: 0.8,
+        delay: 0.45,
+        ease: "easeOut"
+      }
+    );
+
+    // 3. Animate contact info (fade in and slide down)
+    animate(
+      ".contact-info",
+      { opacity: [0, 1], transform: ["translateY(-15px)", "translateY(0px)"] },
+      {
+        duration: 0.8,
+        delay: 0.6,
+        ease: "easeOut"
+      }
+    );
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initAnimations);
+  } else {
+    initAnimations();
+  }
+</script>
