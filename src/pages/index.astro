@@ -1,0 +1,505 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+  <section class="hero">
+    <!-- Decorative Icons -->
+    <img
+      src="/icons/cloud.svg"
+      alt=""
+      class="icon icon-cloud-left"
+      aria-hidden="true"
+    />
+    <img
+      src="/icons/cloud.svg"
+      alt=""
+      class="icon icon-cloud-right"
+      aria-hidden="true"
+    />
+    <img
+      src="/icons/bee.svg"
+      alt=""
+      class="icon icon-bee-1"
+      aria-hidden="true"
+    />
+    <img
+      src="/icons/bee.svg"
+      alt=""
+      class="icon icon-bee-2"
+      aria-hidden="true"
+    />
+    <img
+      src="/icons/flowersl.svg"
+      alt=""
+      class="icon icon-cloudloop"
+      aria-hidden="true"
+    />
+    <img
+      src="/icons/flyingmosquito.svg"
+      alt=""
+      class="icon icon-mosquito"
+      aria-hidden="true"
+    />
+    <img
+      src="/icons/caaart.svg"
+      alt=""
+      class="icon icon-cart"
+      aria-hidden="true"
+    />
+
+    <!-- Contact Info (Top Right) -->
+    <div class="contact-info">
+      <a href="tel:+971501234567" class="contact-item">
+        <span class="contact-label">Call Us</span>
+        <span class="contact-value">+971 56 778 8559</span>
+      </a>
+      <div class="contact-divider"></div>
+      <a href="mailto:info@gardenhub.ae" class="contact-item">
+        <span class="contact-label">Email Us</span>
+        <span class="contact-value">zahraalwarsan@gmail.coom</span>
+      </a>
+    </div>
+
+    <!-- Hero Content -->
+    <div class="hero-content">
+      <h1 class="hero-title">
+        Coming soon.<br />A better way to care for your yard is almost here.
+      </h1>
+      <div class="hero-buttons">
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://gardenhub.ae"
+          class="btn btn-primary">Visit Our Official Store</a
+        >
+        <!-- <a href="#" class="btn btn-secondary">Fertilization</a> -->
+      </div>
+    </div>
+
+    <!-- Scrolling Marquee -->
+    <div class="marquee-wrapper">
+      <div class="marquee-track">
+        <span class="marquee-item">Lawn & Garden Fertilization</span>
+        <span class="marquee-separator">&bull;</span>
+        <span class="marquee-item">Landscape Design & Execution</span>
+        <span class="marquee-separator">&bull;</span>
+        <span class="marquee-item">Softscape & Hardscape</span>
+        <span class="marquee-separator">&bull;</span>
+        <span class="marquee-item">Household Pest Control</span>
+        <span class="marquee-separator">&bull;</span>
+        <span class="marquee-item">Irrigation Systems</span>
+        <span class="marquee-separator">&bull;</span>
+        <span class="marquee-item">Commercial & Educational Services</span>
+        <span class="marquee-separator">&bull;</span>
+        <span class="marquee-item">Flea & Tick Control</span>
+        <span class="marquee-separator">&bull;</span>
+        <span class="marquee-item">Annual Maintenance Contracts (AMC)</span>
+        <span class="marquee-separator">&bull;</span>
+        <span class="marquee-item">Greenhouse & Net House Construction</span>
+        <span class="marquee-separator">&bull;</span>
+        <span class="marquee-item">Weed Control</span>
+        <span class="marquee-separator">&bull;</span>
+        <span class="marquee-item">Lawn Pest & Disease Control</span>
+        <span class="marquee-separator">&bull;</span>
+        <!-- Duplicate for seamless loop -->
+        <span class="marquee-item">Lawn & Garden Fertilization</span>
+        <span class="marquee-separator">&bull;</span>
+        <span class="marquee-item">Landscape Design & Execution</span>
+        <span class="marquee-separator">&bull;</span>
+        <span class="marquee-item">Softscape & Hardscape</span>
+        <span class="marquee-separator">&bull;</span>
+        <span class="marquee-item">Household Pest Control</span>
+        <span class="marquee-separator">&bull;</span>
+        <span class="marquee-item">Irrigation Systems</span>
+        <span class="marquee-separator">&bull;</span>
+        <span class="marquee-item">Commercial & Educational Services</span>
+        <span class="marquee-separator">&bull;</span>
+        <span class="marquee-item">Flea & Tick Control</span>
+        <span class="marquee-separator">&bull;</span>
+        <span class="marquee-item">Annual Maintenance Contracts (AMC)</span>
+        <span class="marquee-separator">&bull;</span>
+        <span class="marquee-item">Greenhouse & Net House Construction</span>
+        <span class="marquee-separator">&bull;</span>
+        <span class="marquee-item">Weed Control</span>
+        <span class="marquee-separator">&bull;</span>
+        <span class="marquee-item">Lawn Pest & Disease Control</span>
+        <span class="marquee-separator">&bull;</span>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Hero Section */
+  .hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-color: #e8521f;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* Contact Info (Top Right) */
+  .contact-info {
+    position: absolute;
+    top: 2.5rem;
+    right: 10%;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    z-index: 100;
+  }
+
+  .contact-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-decoration: none;
+    color: #ffffff;
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .contact-item:hover {
+    opacity: 0.85;
+    transform: translateY(-1px);
+  }
+
+  .contact-label {
+    font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.6;
+    margin-bottom: 2px;
+  }
+
+  .contact-value {
+    font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .contact-divider {
+    width: 1px;
+    height: 24px;
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  /* Decorative Icons - shared */
+  .icon {
+    position: absolute;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Cloud left - partially off screen, top-left */
+  .icon-cloud-left {
+    top: 5%;
+    left: -2%;
+    width: 130px;
+    opacity: 0.95;
+    animation: floatSlow 8s ease-in-out infinite;
+  }
+
+  /* Cloud right - top-right area */
+  .icon-cloud-right {
+    top: 4%;
+    right: 1%;
+    width: 120px;
+    opacity: 0.95;
+    animation: floatSlow 7s ease-in-out infinite 1s;
+  }
+
+  /* Bee 1 - upper left area, small */
+  .icon-bee-1 {
+    top: 16%;
+    left: 14%;
+    width: 32px;
+    animation: buzzFloat 4s ease-in-out infinite;
+  }
+
+  /* Bee 2 - right side, near top */
+  .icon-bee-2 {
+    top: 24%;
+    right: 4%;
+    width: 28px;
+    transform: rotate(-90deg);
+    animation: buzzFloatneg-90 5s ease-in-out infinite 2s;
+  }
+
+  /* Cloud loop - bottom left, dashed arc */
+  .icon-cloudloop {
+    top: 18%;
+    /* left: -1%; */
+    width: 100px;
+    opacity: 0.9;
+    animation: floatSlow 9s ease-in-out infinite 0.5s;
+  }
+
+  /* Flying mosquito - bottom left with trail */
+  .icon-mosquito {
+    bottom: 12%;
+    left: -1%;
+    width: 210px;
+    animation: mosquitoFly 6s ease-in-out infinite;
+  }
+
+  /* Cart with flower - bottom right, large */
+  .icon-cart {
+    bottom: 20%;
+    right: -3%;
+    width: clamp(300px, 32vw, 480px);
+    z-index: 2;
+    animation: cartBob 5s ease-in-out infinite;
+  }
+
+  /* Hero Content */
+  .hero-content {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 0 1.5rem;
+  }
+
+  .hero-title {
+    font-family: "Georgia", "Times New Roman", serif;
+    font-size: clamp(2rem, 5.5vw, 3rem);
+    font-weight: 400;
+    color: #fff;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.75rem;
+    border-radius: 6px;
+    font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    border: 1.5px solid #1a1108;
+  }
+
+  .btn-primary {
+    background-color: #faf3e8;
+    color: #1a1108;
+  }
+
+  .btn-primary:hover {
+    background-color: #1a1108;
+    color: #faf3e8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  .btn-secondary {
+    background-color: #faf3e8;
+    color: #1a1108;
+  }
+
+  .btn-secondary:hover {
+    background-color: #1a1108;
+    color: #faf3e8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Marquee */
+  .marquee-wrapper {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    /* background-color: red; */
+    /* border-top: 1.5px solid #1a1108; */
+    padding: 0.45rem 0;
+    overflow: hidden;
+    z-index: 10;
+  }
+
+  .marquee-track {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    white-space: nowrap;
+    animation: marqueeScroll 25s linear infinite;
+    width: max-content;
+  }
+
+  .marquee-item {
+    font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+    font-size: clamp(0.8rem, 2vw, 1.4rem);
+    font-weight: 400;
+    color: #fff;
+    /* font-style: italic; */
+    letter-spacing: 0.01em;
+  }
+
+  .marquee-separator {
+    color: #fff;
+    font-size: 0.5rem;
+    opacity: 0.5;
+  }
+
+  /* Animations */
+  @keyframes floatSlow {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-12px);
+    }
+  }
+
+  @keyframes buzzFloat {
+    0%,
+    100% {
+      transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+      transform: translate(5px, -8px) rotate(3deg);
+    }
+    50% {
+      transform: translate(-3px, -4px) rotate(-2deg);
+    }
+    75% {
+      transform: translate(4px, -10px) rotate(2deg);
+    }
+  }
+  @keyframes buzzFloatneg-90 {
+    0%,
+    100% {
+      transform: translate(0, 0) rotate(-90deg);
+    }
+    25% {
+      transform: translate(5px, -8px) rotate(-93deg);
+    }
+    50% {
+      transform: translate(-3px, -4px) rotate(-92deg);
+    }
+    75% {
+      transform: translate(4px, -10px) rotate(-92deg);
+    }
+  }
+
+  @keyframes mosquitoFly {
+    0%,
+    100% {
+      transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+      transform: translate(8px, -6px) rotate(2deg);
+    }
+    50% {
+      transform: translate(-4px, 4px) rotate(-1deg);
+    }
+    75% {
+      transform: translate(6px, -8px) rotate(3deg);
+    }
+  }
+
+  @keyframes cartBob {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+
+  @keyframes marqueeScroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .contact-info {
+      top: 1.5rem;
+      right: 50%;
+      transform: translateX(50%);
+      width: 90%;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .contact-item {
+      align-items: center;
+    }
+
+    .contact-value {
+      font-size: 0.8rem;
+    }
+
+    .icon-cloud-left {
+      width: 80px;
+      top: 10%;
+    }
+
+    .icon-cloud-right {
+      width: 70px;
+      top: 8%;
+    }
+
+    .icon-bee-1 {
+      width: 22px;
+    }
+
+    .icon-bee-2 {
+      width: 20px;
+    }
+
+    .icon-mosquito {
+      width: 100px;
+      bottom: 18%;
+    }
+
+    .icon-cloudloop {
+      width: 70px;
+    }
+
+    .icon-cart {
+      width: 200px;
+      bottom: 6%;
+    }
+
+    .hero-buttons {
+      gap: 0.75rem;
+    }
+
+    .btn {
+      padding: 0.6rem 1.25rem;
+      font-size: 0.8rem;
+    }
+  }
+</style>
