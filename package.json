@@ -12,6 +12,9 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@fontsource-variable/dosis": "^5.2.8",
+    "@fontsource-variable/sora": "^5.2.8",
+    "@fontsource/almendra": "^5.2.8",
     "astro": "^7.0.6",
     "motion": "^12.42.2"
   },

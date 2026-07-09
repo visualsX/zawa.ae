@@ -1,1 +1,31 @@
 @import "tailwindcss";
+
+/* ============================================
+   THEME — Tailwind v4 CSS-first config
+   ============================================ */
+@theme {
+  /* Brand colors */
+  --color-rust: #ed4e20;
+  --color-forest: #1c3a13;
+  --color-olive: #83732b;
+  --color-mist: #f5f2f2;
+  --color-cream: #f3e7cf;
+
+  /* Fonts */
+  /* --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Cal Sans", "Inter", sans-serif; */
+  --font-sora: "Sora Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-almendra: "Almendra", ui-serif, Georgia, serif;
+  --font-dosis: "Dosis Variable", ui-sans-serif, system-ui, sans-serif;
+
+  /* Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+
+  /* Shadows */
+  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-elevated:
+    0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
