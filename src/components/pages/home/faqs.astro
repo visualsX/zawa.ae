@@ -1,110 +1,39 @@
+---
+import Accordion from "../../shared/accordion.astro";
+
+const faqs = [
+  {
+    question: "What makes your Company different?",
+    answer:
+      "We combine eco-friendly treatments with data-driven scheduling, so your lawn gets exactly what it needs, when it needs it, without unnecessary chemical use.",
+  },
+  {
+    question: "Do you Serve My Area?",
+    answer:
+      "We currently serve the greater metro area and surrounding suburbs. Enter your zip code at checkout or give us a call to confirm coverage for your specific location.",
+  },
+  {
+    question: "Do you Offer Free Consultations?",
+    answer: "Yes.",
+  },
+  {
+    question: "What Services does your company offer?",
+    answer:
+      "Fertilization, irrigation, pest & mosquito control, landscape design, hardscaping, and seasonal maintenance contracts, everything your yard needs, year-round.",
+  },
+];
+---
+
 <section class="w-full bg-cream rounded-b-4xl py-24 md:py-32 relative z-20">
   <div class="max-w-3xl mx-auto px-6 flex flex-col items-center">
-    <!-- Heading -->
     <h2
       class="font-awesome text-5xl md:text-6xl text-forest text-center mb-16 md:mb-20 max-w-2xl leading-[1.1]"
     >
       Your landscaping & maintenance questions answered
     </h2>
 
-    <!-- Accordion List -->
-    <div class="w-full flex flex-col mb-24 md:mb-32">
-      <!-- Item 1 -->
-      <div
-        class="border-t border-rust/40 py-6 flex justify-between items-center cursor-pointer group"
-      >
-        <span
-          class="font-sora font-medium text-[15px] md:text-base text-forest group-hover:text-forest/80 transition-colors"
-        >
-          What makes your Company different?
-        </span>
-        <svg
-          class="w-5 h-5 text-rust shrink-0"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.5"
-            d="M19 9l-7 7-7-7"></path>
-        </svg>
-      </div>
+    <Accordion items={faqs} class="mb-24 md:mb-32" />
 
-      <!-- Item 2 -->
-      <div
-        class="border-t border-rust/40 py-6 flex justify-between items-center cursor-pointer group"
-      >
-        <span
-          class="font-sora font-medium text-[15px] md:text-base text-forest group-hover:text-forest/80 transition-colors"
-        >
-          Do you Serve My Area?
-        </span>
-        <svg
-          class="w-5 h-5 text-rust shrink-0"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.5"
-            d="M19 9l-7 7-7-7"></path>
-        </svg>
-      </div>
-
-      <!-- Item 3 -->
-      <div
-        class="border-t border-rust/40 py-6 flex justify-between items-center cursor-pointer group"
-      >
-        <span
-          class="font-sora font-medium text-[15px] md:text-base text-forest group-hover:text-forest/80 transition-colors"
-        >
-          Do you Offer Free Consultations?
-        </span>
-        <svg
-          class="w-5 h-5 text-rust shrink-0"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.5"
-            d="M19 9l-7 7-7-7"></path>
-        </svg>
-      </div>
-
-      <!-- Item 4 (Active style) -->
-      <div class="border-t border-rust/40">
-        <div
-          class="border border-forest py-6 px-4 flex justify-between items-center cursor-pointer mt-[-1px]"
-        >
-          <span
-            class="font-sora font-medium text-[15px] md:text-base text-forest"
-          >
-            What Services does your company offer?
-          </span>
-          <svg
-            class="w-5 h-5 text-rust shrink-0"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1.5"
-              d="M19 9l-7 7-7-7"></path>
-          </svg>
-        </div>
-      </div>
-    </div>
-
-    <!-- Footer CTA -->
     <div class="text-center flex flex-col items-center">
       <h2
         class="font-awesome text-[4.5rem] md:text-[6.5rem] text-rust leading-[0.9] mb-8"

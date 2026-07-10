@@ -1,0 +1,150 @@
+---
+interface AccordionItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  items: AccordionItem[];
+  allowMultiple?: boolean; // if true, multiple items can stay open at once
+  defaultOpenIndex?: number; // index of item open by default (-1 = none)
+  class?: string;
+}
+
+const {
+  items,
+  allowMultiple = false,
+  defaultOpenIndex = -1,
+  class: className = "",
+} = Astro.props;
+
+// Unique id so multiple <Accordion /> instances on the same page don't clash
+const accordionId = `accordion-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+<div
+  class:list={["w-full flex flex-col", className]}
+  data-accordion
+  data-allow-multiple={allowMultiple}
+>
+  {
+    items.map((item, index) => (
+      <div class="flex flex-col" data-accordion-item>
+        <button
+          type="button"
+          class="w-full py-6 flex justify-between items-center cursor-pointer group text-left"
+          data-accordion-trigger
+          aria-expanded={index === defaultOpenIndex ? "true" : "false"}
+          aria-controls={`${accordionId}-panel-${index}`}
+          id={`${accordionId}-trigger-${index}`}
+        >
+          <span class="font-sora font-medium text-[15px] md:text-base text-forest group-hover:text-forest/80 transition-colors pr-6">
+            {item.question}
+          </span>
+          <svg
+            class:list={[
+              "w-5 h-5 text-rust shrink-0 transition-transform duration-300",
+              index === defaultOpenIndex && "rotate-180",
+            ]}
+            data-accordion-icon
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+        </button>
+        <div
+          class="grid transition-[grid-template-rows] duration-300 ease-out"
+          style={`grid-template-rows: ${index === defaultOpenIndex ? "1fr" : "0fr"};`}
+          data-accordion-panel
+          id={`${accordionId}-panel-${index}`}
+          role="region"
+          aria-labelledby={`${accordionId}-trigger-${index}`}
+        >
+          <div class="overflow-hidden">
+            <p class="font-sora text-[15px] text-forest/70 leading-relaxed pb-6 pr-8">
+              {item.answer}
+            </p>
+          </div>
+        </div>
+        <!-- Bottom SVG Border -->
+        <svg
+          class="w-full h-2 md:h-3 text-rust/40 mt-1 mb-2"
+          viewBox="0 0 1204 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M0 15C328.697 15 1027.37 15 1090.55 15C1151.52 15 1145.52 1 1143.03 1C1140.53 1 1130.53 15 1204 15"
+            stroke="currentColor"
+          />
+        </svg>
+      </div>
+    ))
+  }
+</div>
+
+<script>
+  function initAccordions() {
+    const accordions =
+      document.querySelectorAll<HTMLElement>("[data-accordion]");
+
+    accordions.forEach((accordion) => {
+      if (accordion.dataset.initialized === "true") return;
+      accordion.dataset.initialized = "true";
+
+      const allowMultiple = accordion.dataset.allowMultiple === "true";
+      const items = accordion.querySelectorAll<HTMLElement>(
+        "[data-accordion-item]",
+      );
+
+      items.forEach((item) => {
+        const trigger = item.querySelector<HTMLButtonElement>(
+          "[data-accordion-trigger]",
+        );
+        const panel = item.querySelector<HTMLElement>("[data-accordion-panel]");
+        const icon = item.querySelector<SVGElement>("[data-accordion-icon]");
+
+        trigger?.addEventListener("click", () => {
+          const isOpen = trigger.getAttribute("aria-expanded") === "true";
+
+          if (!allowMultiple) {
+            items.forEach((other) => {
+              if (other !== item) {
+                other
+                  .querySelector("[data-accordion-trigger]")
+                  ?.setAttribute("aria-expanded", "false");
+                other.querySelector<HTMLElement>(
+                  "[data-accordion-panel]",
+                )!.style.gridTemplateRows = "0fr";
+                other
+                  .querySelector("[data-accordion-icon]")
+                  ?.classList.remove("rotate-180");
+              }
+            });
+          }
+
+          trigger.setAttribute("aria-expanded", String(!isOpen));
+          panel!.style.gridTemplateRows = isOpen ? "0fr" : "1fr";
+          icon?.classList.toggle("rotate-180", !isOpen);
+        });
+      });
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initAccordions);
+  } else {
+    initAccordions();
+  }
+
+  // Re-init on Astro view transitions, if you use them
+  document.addEventListener("astro:page-load", initAccordions);
+</script>

@@ -39,12 +39,6 @@
   font-display: swap;
 }
 
-@theme {
-  --font-sans: "Sora Variable", ui-sans-serif, system-ui, sans-serif;
-  --font-heading: "Almendra", ui-serif, Georgia, serif;
-  --font-awesome: "Awesome", cursive;
-  --font-beautify: "Beautify", cursive;
-}
 /* ============================================
    THEME — Tailwind
    ============================================ */
@@ -154,4 +148,53 @@
       transform: translateX(-50%);
     }
   }
+}
+
+/* ============================================
+   COMPONENTS — reusable class combos
+   ============================================ */
+@layer components {
+  /* Layout */
+  .container-custom {
+    @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-0;
+  }
+  /* 
+  .section {
+  }
+
+  .btn {
+  }
+
+  .btn-primary {
+  }
+
+  .btn-secondary {
+  }
+
+  .btn-ghost {
+  }
+
+  .card {
+  }
+
+  .input {
+  }
+
+  .label {
+  }
+
+  .navbar {
+  }
+
+  .badge {
+  }
+
+  .badge-success {
+  }
+  .badge-warning {
+  }
+  .badge-error {
+  }
+  .badge-info {
+  } */
 }
