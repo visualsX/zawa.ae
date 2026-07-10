@@ -24,24 +24,26 @@ const faqs = [
 ];
 ---
 
-<section class="w-full bg-cream rounded-b-4xl py-24 md:py-32 relative z-20">
-  <div class="max-w-3xl mx-auto px-6 flex flex-col items-center">
+<section
+  class="w-full bg-cream lg:rounded-b-4xl py-16 sm:py-24 md:py-32 relative z-20"
+>
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 flex flex-col items-center">
     <h2
-      class="font-awesome text-5xl md:text-6xl text-forest text-center mb-16 md:mb-20 max-w-2xl leading-[1.1]"
+      class="font-awesome text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-forest text-center mb-10 sm:mb-16 md:mb-20 max-w-2xl leading-[1.1]"
     >
       Your landscaping & maintenance questions answered
     </h2>
 
-    <Accordion items={faqs} class="mb-24 md:mb-32" />
+    <Accordion items={faqs} class="mb-16 sm:mb-24 md:mb-32" />
 
     <div class="text-center flex flex-col items-center">
       <h2
-        class="font-awesome text-[4.5rem] md:text-[6.5rem] text-rust leading-[0.9] mb-8"
+        class="font-awesome text-[2.5rem] sm:text-[3.5rem] md:text-[4.5rem] lg:text-[6.5rem] text-rust leading-[0.9] mb-6 sm:mb-8"
       >
         Still have<br />questions?
       </h2>
       <button
-        class="border border-forest text-forest px-8 py-3 rounded-full text-sm font-sora font-medium hover:bg-forest/5 transition-colors cursor-pointer"
+        class="border border-forest text-forest px-6 sm:px-8 py-2.5 sm:py-3 rounded-full text-sm font-sora font-medium hover:bg-forest/5 transition-colors cursor-pointer"
       >
         Give us a call
       </button>

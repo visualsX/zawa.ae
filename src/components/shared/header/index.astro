@@ -1,27 +1,28 @@
 <header
-  class="fixed top-6 left-0 right-0 z-999 flex justify-center w-full px-6"
+  id="site-header"
+  class="fixed top-4 sm:top-6 left-0 right-0 z-999 flex justify-center w-full px-4 sm:px-6"
 >
   <div
-    class="bg-cream border border-gray-300 rounded-full w-full max-w-6xl flex items-center justify-between px-4 py-4 shadow-sm"
+    class="bg-cream border border-gray-300 rounded-full w-full max-w-6xl flex items-center justify-between px-3 py-2.5 sm:px-4 sm:py-4 shadow-sm"
   >
     <!-- Logo -->
-    <a href="/" class="flex items-center gap-3">
+    <a href="/" class="flex items-center gap-2 sm:gap-3 shrink-0">
       <img
-        class="w-12 h-12"
+        class="w-9 h-9 sm:w-12 sm:h-12"
         fetchpriority="high"
         src="/logo.png"
         alt=""
         aria-hidden="true"
       />
       <span
-        class="font-beautify font-bold text-rust text-[1.1rem] leadxl.1] uppercase"
+        class="font-beautify font-bold text-rust text-[0.85rem] sm:text-[1.1rem] leading-[1.1] uppercase"
       >
         <p class="font-extrabold tracking-[0.5em]">Zahra</p>
         <p>Al Warsan</p>
       </span>
     </a>
 
-    <!-- Nav -->
+    <!-- Nav (desktop) -->
     <nav class="hidden lg:flex items-center gap-8">
       <a
         href="#"
@@ -58,12 +59,124 @@
       </a>
     </nav>
 
-    <!-- CTA -->
-    <a
-      href="#"
-      class="bg-forest text-cream font-sora px-6 py-2.5 rounded-full text-[15px] font-medium hover:bg-opacity-90 transition-colors"
-    >
-      Get a Quote
-    </a>
+    <!-- Right side: CTA + hamburger -->
+    <div class="flex items-center gap-2 sm:gap-3">
+      <!-- CTA -->
+      <a
+        href="#"
+        class="bg-forest text-cream font-sora px-4 py-2 sm:px-6 sm:py-2.5 rounded-full text-xs sm:text-[15px] font-medium hover:bg-forest/90 transition-colors"
+      >
+        Get a Quote
+      </a>
+
+      <!-- Hamburger (mobile/tablet) -->
+      <button
+        id="mobile-menu-toggle"
+        type="button"
+        class="lg:hidden flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full hover:bg-forest/5 transition-colors cursor-pointer"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+      >
+        <svg
+          id="hamburger-icon"
+          class="w-5 h-5 sm:w-6 sm:h-6 text-forest transition-opacity"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+        <svg
+          id="close-icon"
+          class="w-5 h-5 sm:w-6 sm:h-6 text-forest hidden transition-opacity"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu panel -->
+  <div
+    id="mobile-menu"
+    class="lg:hidden absolute top-full left-4 right-4 sm:left-6 sm:right-6 mt-3 bg-cream border border-gray-300 rounded-2xl shadow-lg overflow-hidden transition-all duration-300 ease-out max-h-0 opacity-0 pointer-events-none"
+  >
+    <nav class="flex flex-col p-6 gap-1">
+      <a
+        href="#"
+        class="text-base text-forest font-sora font-medium py-3 hover:text-rust transition-colors"
+        >Services</a
+      >
+      <a
+        href="#"
+        class="text-base text-forest font-sora font-medium py-3 hover:text-rust transition-colors"
+        >Blog</a
+      >
+      <a
+        href="#"
+        class="text-base text-forest font-sora font-medium py-3 hover:text-rust transition-colors"
+        >FAQ</a
+      >
+      <a
+        href="#"
+        class="text-base text-forest font-sora font-medium py-3 hover:text-rust transition-colors"
+        >Contact</a
+      >
+    </nav>
   </div>
 </header>
+
+<script>
+  function initMobileMenu() {
+    const toggle = document.getElementById("mobile-menu-toggle");
+    const menu = document.getElementById("mobile-menu");
+    const hamburgerIcon = document.getElementById("hamburger-icon");
+    const closeIcon = document.getElementById("close-icon");
+
+    if (!toggle || !menu || !hamburgerIcon || !closeIcon) return;
+
+    // Prevent duplicate listeners
+    if (toggle.dataset.initialized === "true") return;
+    toggle.dataset.initialized = "true";
+
+    toggle.addEventListener("click", () => {
+      const isOpen = toggle.getAttribute("aria-expanded") === "true";
+
+      toggle.setAttribute("aria-expanded", String(!isOpen));
+
+      if (isOpen) {
+        // Close
+        menu.style.maxHeight = "0";
+        menu.style.opacity = "0";
+        menu.classList.add("pointer-events-none");
+        hamburgerIcon.classList.remove("hidden");
+        closeIcon.classList.add("hidden");
+      } else {
+        // Open
+        menu.style.maxHeight = menu.scrollHeight + "px";
+        menu.style.opacity = "1";
+        menu.classList.remove("pointer-events-none");
+        hamburgerIcon.classList.add("hidden");
+        closeIcon.classList.remove("hidden");
+      }
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initMobileMenu);
+  } else {
+    initMobileMenu();
+  }
+  document.addEventListener("astro:page-load", initMobileMenu);
+</script>

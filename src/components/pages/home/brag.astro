@@ -31,12 +31,12 @@ const cards: ServiceCard[] = [
 ];
 ---
 
-<section class="w-full bg-forest py-24 md:py-32 relative z-20">
+<section class="w-full bg-forest py-16 sm:py-24 md:py-32 relative z-20">
   <div class="container-custom">
     <!-- Header -->
-    <div class="mb-16">
+    <div class="mb-10 sm:mb-16">
       <h2
-        class="font-awesome text-6xl md:text-7xl text-cream m-0 text-center font-normal leading-[1.15]"
+        class="font-awesome text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-cream m-0 text-center font-normal leading-[1.15]"
       >
         <span class="block">For work or home, we make your</span>
         <span class="block">landscape the best you've known</span>
@@ -44,27 +44,27 @@ const cards: ServiceCard[] = [
     </div>
 
     <!-- Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-5">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 lg:gap-5">
       {
         cards.map((card) => (
           <a
             href={card.href ?? "#"}
             class="group flex flex-col rounded-md overflow-hidden bg-white/5 hover:bg-rust transition-colors duration-300"
           >
-            <div class="h-64 sm:h-72 w-full overflow-hidden">
+            <div class="h-52 sm:h-56 md:h-64 lg:h-72 w-full overflow-hidden">
               <img
                 src={card.image}
                 alt={card.alt}
                 class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
               />
             </div>
-            <div class="p-8 flex justify-between items-end gap-6 grow">
+            <div class="p-5 sm:p-6 md:p-8 flex justify-between items-end gap-4 sm:gap-6 grow">
               <h3
-                class="font-beautify text-2xl font-normal leading-tight text-cream m-0"
+                class="font-beautify text-xl sm:text-2xl font-normal leading-tight text-cream m-0"
                 set:html={card.title}
               />
               <svg
-                class="w-6 h-6 shrink-0 text-cream/70 group-hover:text-cream transition-colors mb-1"
+                class="w-5 h-5 sm:w-6 sm:h-6 shrink-0 text-cream/70 group-hover:text-cream transition-colors mb-1"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
