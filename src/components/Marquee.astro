@@ -1,0 +1,76 @@
+---
+interface Props {
+  items: string[];
+  speed?: number; // seconds for one full loop
+  pauseOnHover?: boolean;
+  gap?: string; // tailwind-style gap, e.g. "1.5rem"
+  textClass?: string;
+  dotClass?: string;
+  separator?: string;
+}
+
+const { 
+  items, 
+  speed = 25, 
+  pauseOnHover = true, 
+  gap = "1.5rem",
+  textClass = "font-sans text-[clamp(0.8rem,2vw,1.4rem)] font-normal text-white tracking-[0.01em]",
+  dotClass = "text-white text-base",
+  separator = "•"
+} = Astro.props;
+---
+
+<div class="relative w-full overflow-hidden">
+  <div
+    class:list={[
+      "marquee-track flex items-center whitespace-nowrap w-max",
+      pauseOnHover && "hover:[animation-play-state:paused]",
+    ]}
+    style={`--marquee-gap: ${gap}; --marquee-speed: ${speed}s;`}
+  >
+    <!-- Render twice for seamless loop -->
+    {
+      [0, 1].map(() => (
+        <div class="flex items-center" style={`gap: ${gap}`}>
+          {items.map((item, i) => (
+            <>
+              <span class={textClass}>
+                {item}
+              </span>
+              {i < items.length - 1 && (
+                <span
+                  class={dotClass}
+                  style={`margin-inline: ${gap}`}
+                >
+                  {separator}
+                </span>
+              )}
+            </>
+          ))}
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .marquee-track {
+    animation: marqueeScroll var(--marquee-speed) linear infinite;
+    gap: var(--marquee-gap);
+  }
+
+  @keyframes marqueeScroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none;
+    }
+  }
+</style>

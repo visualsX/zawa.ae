@@ -1,0 +1,111 @@
+---
+import Marquee from "../../Marquee.astro";
+---
+
+<section
+  class="w-full bg-[#FAF9F6] py-20 md:py-24 relative z-20 flex flex-col items-center overflow-hidden"
+>
+  <!-- Marquee Heading -->
+  <div class="w-full mb-20 md:mb-28">
+    <Marquee
+      items={[
+        "The new standard of outdoor living",
+        "The new standard of outdoor living",
+        "The new standard of outdoor living",
+        "The new standard of outdoor living",
+        "The new standard of outdoor living",
+        "The new standard of outdoor living",
+      ]}
+      speed={120}
+      gap="2.5rem"
+      textClass="font-awesome font-medium text-[4.5rem] md:text-[6.5rem] leading-[1.1] text-rust tracking-tight"
+      dotClass="font-awesome font-medium text-rust text-[4.5rem] md:text-[6.5rem] leading-[1.1] px-2 opacity-80"
+      separator="-"
+    />
+  </div>
+
+  <!-- Icon Cards -->
+  <div
+    class="flex flex-wrap justify-center gap-8 md:gap-12 px-6 max-w-7xl mx-auto"
+  >
+    <!-- Card 1 -->
+    <div
+      class="bg-white rounded-[100vw] shadow-[0_8px_30px_rgb(0,0,0,0.04)] w-48 h-72 md:w-56 md:h-96 flex flex-col items-center justify-center p-8 gap-8 hover:-translate-y-2 transition-transform duration-300"
+    >
+      <div
+        class="w-24 h-24 md:w-28 md:h-28 flex items-center justify-center fill-forest"
+      >
+        <img
+          src="/icons/buzz.svg"
+          alt="Ready when you are"
+          class="w-full h-full object-contain"
+        />
+      </div>
+      <p
+        class="font-almendra font-normal text-forest text-sm md:text-xl text-center leading-tight"
+      >
+        Ready when you<br />are
+      </p>
+    </div>
+
+    <!-- Card 2 -->
+    <div
+      class="bg-white rounded-[100vw] shadow-[0_8px_30px_rgb(0,0,0,0.04)] w-48 h-72 md:w-56 md:h-96 flex flex-col items-center justify-center p-8 gap-8 hover:-translate-y-2 transition-transform duration-300"
+    >
+      <div
+        class="w-24 h-24 md:w-28 md:h-28 flex items-center justify-center text-forest"
+      >
+        <img
+          src="/icons/24by7.svg"
+          alt="Seamless services"
+          class="w-full h-full object-contain"
+        />
+      </div>
+      <p
+        class="font-almendra font-normal text-forest text-sm md:text-xl text-center leading-tight"
+      >
+        Seamless<br />services
+      </p>
+    </div>
+
+    <!-- Card 3 -->
+    <div
+      class="bg-white rounded-[100vw] shadow-[0_8px_30px_rgb(0,0,0,0.04)] w-48 h-72 md:w-56 md:h-96 flex flex-col items-center justify-center p-8 gap-8 hover:-translate-y-2 transition-transform duration-300"
+    >
+      <div
+        class="w-24 h-24 md:w-28 md:h-28 flex items-center justify-center text-forest"
+      >
+        <img
+          src="/icons/ecofriendly.svg"
+          alt="Eco-friendly practices"
+          class="w-full h-full object-contain"
+        />
+      </div>
+      <p
+        class="font-almendra font-normal text-forest text-sm md:text-xl text-center leading-tight"
+      >
+        Eco-friendly<br />practices
+      </p>
+    </div>
+
+    <!-- Card 4 -->
+    <div
+      class="bg-white rounded-[100vw] shadow-[0_8px_30px_rgb(0,0,0,0.04)] w-48 h-72 md:w-56 md:h-96 flex flex-col items-center justify-center p-8 gap-8 hover:-translate-y-2 transition-transform duration-300"
+    >
+      <div
+        class="w-24 h-24 md:w-28 md:h-28 flex items-center justify-center text-forest"
+      >
+        <img
+          src="/icons/backup.svg"
+          alt="Backup equipment"
+          class="w-full h-full object-contain"
+        />
+      </div>
+      <p
+        class="font-almendra font-normal text-forest text-sm md:text-xl text-center leading-tight"
+      >
+        Backup<br />equipment
+      </p>
+    </div>
+  </div>
+</section>

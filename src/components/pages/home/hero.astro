@@ -1,0 +1,171 @@
+---
+import Header from "../../shared/header/index.astro";
+import Marquee from "../../Marquee.astro";
+
+const services = [
+  "Lawn & Garden Fertilization",
+  "Landscape Design & Execution",
+  "Softscape & Hardscape",
+  "Household Pest Control",
+  "Irrigation Systems",
+  "Commercial & Educational Services",
+  "Flea & Tick Control",
+  "Annual Maintenance Contracts (AMC)",
+  "Greenhouse & Net House Construction",
+  "Weed Control",
+  "Lawn Pest & Disease Control",
+];
+---
+
+<section
+  class="relative w-full h-screen bg-rust flex flex-col items-center justify-center overflow-hidden z-1"
+>
+  <!-- Decorative Icons -->
+  <img
+    fetchpriority="high"
+    src="/icons/cloud.svg"
+    alt=""
+    class="absolute z-1 pointer-events-none top-[10%] md:top-[5%] left-[-2%] w-[80px] md:w-[130px] opacity-95 animate-float-slow"
+    aria-hidden="true"
+  />
+  <img
+    fetchpriority="high"
+    src="/icons/cloud.svg"
+    alt=""
+    class="absolute z-1 pointer-events-none top-[8%] md:top-[4%] right-[1%] w-[70px] md:w-[120px] opacity-95 animate-[floatSlow_7s_ease-in-out_infinite_1s]"
+    aria-hidden="true"
+  />
+  <img
+    fetchpriority="high"
+    src="/icons/bee.svg"
+    alt=""
+    class="absolute z-1 pointer-events-none top-[16%] left-[14%] w-[22px] md:w-[32px] animate-buzz-float"
+    aria-hidden="true"
+  />
+  <img
+    fetchpriority="high"
+    src="/icons/bee.svg"
+    alt=""
+    class="absolute z-1 pointer-events-none top-[24%] right-[4%] w-[20px] md:w-[28px] -rotate-90 animate-buzz-float-neg90"
+    aria-hidden="true"
+  />
+  <img
+    fetchpriority="high"
+    src="/icons/flowersl.svg"
+    alt=""
+    class="absolute z-1 pointer-events-none top-[18%] w-[70px] md:w-[100px] opacity-90 animate-[floatSlow_9s_ease-in-out_infinite_0.5s]"
+    aria-hidden="true"
+  />
+  <img
+    fetchpriority="high"
+    src="/icons/flyingmosquito.svg"
+    alt=""
+    class="absolute z-1 pointer-events-none bottom-[18%] md:bottom-[12%] left-[-1%] w-[100px] md:w-[210px] animate-mosquito-fly"
+    aria-hidden="true"
+  />
+  <img
+    fetchpriority="high"
+    src="/icons/caaart.svg"
+    alt=""
+    class="absolute z-2 pointer-events-none bottom-[6%] md:bottom-[20%] right-[-3%] w-[200px] md:w-[clamp(300px,32vw,480px)] animate-cart-bob"
+    aria-hidden="true"
+  />
+
+  <!-- Header -->
+  <Header />
+  <!-- Hero Content -->
+  <div class="relative z-3 text-center flex flex-col items-center gap-8 px-6">
+    <h1
+      class="font-sora text-[82px] font-bold text-white leading-[1.2] tracking-[-0.02em] m-0 flex flex-col items-center gap-2"
+    >
+      <span class="flex flex-wrap justify-center gap-x-[0.25em]">
+        <span class="overflow-hidden pb-[0.1em]"
+          ><span class="title-word inline-block">There's</span></span
+        >
+        <span class="overflow-hidden pb-[0.1em]"
+          ><span class="title-word inline-block">a</span></span
+        >
+        <span class="overflow-hidden pb-[0.1em]"
+          ><span class="title-word inline-block">better</span></span
+        >
+        <span class="overflow-hidden pb-[0.1em]"
+          ><span class="title-word inline-block">way</span></span
+        >
+        <span class="overflow-hidden pb-[0.1em]"
+          ><span class="title-word inline-block">to</span></span
+        >
+      </span>
+      <span class="flex flex-wrap justify-center gap-x-[0.25em]">
+        <span class="overflow-hidden pb-[0.1em]"
+          ><span class="title-word inline-block">care</span></span
+        >
+        <span class="overflow-hidden pb-[0.1em]"
+          ><span class="title-word inline-block">for</span></span
+        >
+        <span class="overflow-hidden pb-[0.1em]"
+          ><span class="title-word inline-block">your</span></span
+        >
+        <span class="overflow-hidden pb-[0.1em]"
+          ><span class="title-word inline-block">yard.</span></span
+        >
+      </span>
+    </h1>
+    <div
+      class="hero-buttons flex gap-3 md:gap-4 flex-wrap justify-center opacity-0"
+    >
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
+        href="https://gardenhub.ae"
+        class="inline-flex items-center justify-center py-2.5 md:py-3 px-5 md:px-7 rounded-md font-sans text-[0.100vw] md:text-[0.9rem] font-medium text-[#1a1108] bg-[#faf3e8] border-[1.5px] border-[#1a1108] transition-all duration-[250ms] ease-out hover:bg-[#1a1108] hover:text-[#faf3e8] hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(0,0,0,0.15)]"
+        >Visit Our Official Store</a
+      >
+      <!-- <a href="#" class="btn btn-secondary">Fertilization</a> -->
+    </div>
+  </div>
+
+  <!-- Scrolling Marquee -->
+  <div class="absolute bottom-0 left-0 w-full py-2 overflow-hidden z-10">
+    <Marquee items={services} speed={25} />
+  </div>
+
+  <script>
+    import { animate, stagger } from "motion";
+
+    function initAnimations() {
+      // 1. Animate title lines (slide up and fade in)
+      animate(
+        ".title-word",
+        {
+          transform: ["translateY(100%)", "translateY(0%)"],
+          opacity: [0, 1],
+        },
+        {
+          duration: 0.7,
+          delay: stagger(0.06),
+          ease: [0.16, 1, 0.3, 1],
+        },
+      );
+
+      // 2. Animate buttons (fade in and slide up)
+      animate(
+        ".hero-buttons",
+        {
+          transform: ["translateY(100%)", "translateY(0%)"],
+          opacity: [0, 1],
+        },
+        {
+          duration: 0.7,
+          delay: stagger(0.06),
+          ease: [0.16, 1, 0.3, 1],
+        },
+      );
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initAnimations);
+    } else {
+      initAnimations();
+    }
+  </script>
+</section>

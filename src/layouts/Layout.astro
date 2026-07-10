@@ -1,8 +1,4 @@
 ---
-import "@fontsource-variable/sora";
-import "@fontsource-variable/dosis";
-import "@fontsource/almendra/400.css";
-import "@fontsource/almendra/700.css";
 import "../styles/global.css";
 ---
 
@@ -11,10 +7,48 @@ import "../styles/global.css";
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="icon" href="/logo.png" />
     <meta name="generator" content={Astro.generator} />
     <title>Zahra Al Warsan | Garden Hub</title>
+
+    <!-- Preload Fonts -->
+    <link
+      rel="preload"
+      href="/fonts/sora-var.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <link
+      rel="preload"
+      href="/fonts/almendra-regular.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/almendra-bold.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/awesome.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/beautify.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
   </head>
   <body>
     <slot />
