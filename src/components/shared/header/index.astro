@@ -1,15 +1,44 @@
+---
+interface ServiceMenuItem {
+  title: string;
+  description: string;
+  href: string;
+}
+
+const serviceMenuItems: ServiceMenuItem[] = [
+  {
+    title: "Complete Plant Care & Landscape Design",
+    description:
+      "From seasonal planting to full landscape transformations, we design and maintain outdoor spaces that thrive year-round.",
+    href: "#",
+  },
+  {
+    title: "Sustainable Farms & Smart AgTech Solutions",
+    description:
+      "Modern farm management powered by data-driven irrigation, soil health monitoring, and eco-conscious growing practices.",
+    href: "#",
+  },
+  {
+    title: "Kid, Pet & Bee-Friendly Pest & Mosquito Control",
+    description:
+      "Effective pest and mosquito treatments that protect your family and pollinators alike, without harsh chemicals.",
+    href: "#",
+  },
+];
+---
+
 <header
   id="site-header"
   class="fixed top-4 sm:top-6 left-0 right-0 z-999 flex justify-center w-full px-4 sm:px-6"
 >
   <div
     id="glass-nav"
-    class="relative bg-cream/50 backdrop-blur-xl backdrop-saturate-150 border border-white/40 rounded-full w-full max-w-6xl flex items-center justify-between px-3 py-2.5 sm:px-4 sm:py-4 shadow-[0_8px_32px_rgba(0,0,0,0.08),inset_0_1px_1px_rgba(255,255,255,0.6)] overflow-hidden transition-all duration-300"
+    class="relative bg-cream/50 backdrop-blur-xl backdrop-saturate-150 border border-white/40 rounded-full w-full max-w-6xl flex items-center justify-between px-3 py-2.5 sm:px-4 sm:py-4 shadow-[0_8px_32px_rgba(0,0,0,0.08),inset_0_1px_1px_rgba(255,255,255,0.6)] overflow-visible transition-all duration-300"
   >
     <!-- Shine layer that follows cursor -->
     <div
       id="glass-shine"
-      class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300"
+      class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 rounded-full"
       style="background: radial-gradient(180px circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.5), transparent 70%);"
     >
     </div>
@@ -33,23 +62,68 @@
 
     <!-- Nav (desktop) -->
     <nav class="relative hidden lg:flex items-center gap-8">
-      <a
-        href="#"
-        class="text-[15px] text-forest font-sora font-medium flex items-center gap-1 hover:opacity-80 transition-opacity"
-      >
-        Services
-        <svg
-          class="w-4 h-4"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="2"
-          ><path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M19 9l-7 7-7-7"></path></svg
+      <!-- Services with dropdown -->
+      <div class="relative" data-dropdown-group>
+        <button
+          type="button"
+          class="text-[15px] text-forest font-sora font-medium flex items-center gap-1 hover:opacity-80 transition-opacity cursor-pointer"
+          data-dropdown-trigger
+          aria-expanded="false"
         >
-      </a>
+          Services
+          <svg
+            class="w-4 h-4 transition-transform duration-300"
+            data-dropdown-chevron
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+            ><path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M19 9l-7 7-7-7"></path></svg
+          >
+        </button>
+
+        <!-- Dropdown panel -->
+        <div
+          data-dropdown-panel
+          class="absolute left-1/2 -translate-x-1/2 top-full mt-10 w-[800px] max-w-[85vw] bg-cream/95 backdrop-blur-xl backdrop-saturate-150 border border-white/40 rounded-3xl shadow-[0_16px_48px_rgba(0,0,0,0.12)] overflow-hidden opacity-0 scale-95 pointer-events-none transition-all duration-250 ease-out"
+        >
+          <div class="flex flex-row p-3">
+            {
+              serviceMenuItems.map((item) => (
+                <a
+                  href={item.href}
+                  class="group flex items-start justify-between gap-4 rounded-2xl px-5 py-4 hover:bg-teal transition-colors duration-200"
+                >
+                  <div class="flex flex-col gap-1">
+                    <span class="font-sora font-semibold text-[15px] text-forest group-hover:text-cream transition-colors duration-200">
+                      {item.title}
+                    </span>
+                    <span class="font-sora text-[13px] leading-relaxed text-forest/60 group-hover:text-cream/85 transition-colors duration-200">
+                      {item.description}
+                    </span>
+                  </div>
+                  {/* <svg
+                    class="w-4 h-4 shrink-0 mt-1 text-forest/50 group-hover:text-cream transition-colors duration-200"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg> */}
+                </a>
+              ))
+            }
+          </div>
+        </div>
+      </div>
 
       <a
         href="#"
@@ -77,7 +151,9 @@
 
       <a
         href="#"
-        class="bg-forest text-cream font-sora px-4 py-2 sm:px-6 sm:py-2.5 rounded-full text-xs sm:text-[15px] font-medium hover:bg-forest/90 transition-colors"
+        class="bg-forest text-cream font-sora px-4 py-2 sm:px-6 sm:py-2.5
+      rounded-full text-xs sm:text-[15px] font-medium hover:bg-forest/90
+      transition-colors"
       >
         Get a Quote
       </a>
@@ -151,105 +227,158 @@
       >
     </nav>
   </div>
-</header>
 
-<!-- <script>
-  import { animate } from "motion";
+  <script>
+    function initMobileMenu() {
+      const toggle = document.getElementById("mobile-menu-toggle");
+      const menu = document.getElementById("mobile-menu");
+      const hamburgerIcon = document.getElementById("hamburger-icon");
+      const closeIcon = document.getElementById("close-icon");
 
-  function initMobileMenu() {
-    const toggle = document.getElementById("mobile-menu-toggle");
-    const menu = document.getElementById("mobile-menu");
-    const hamburgerIcon = document.getElementById("hamburger-icon");
-    const closeIcon = document.getElementById("close-icon");
+      if (!toggle || !menu || !hamburgerIcon || !closeIcon) return;
+      if (toggle.dataset.initialized === "true") return;
+      toggle.dataset.initialized = "true";
 
-    if (!toggle || !menu || !hamburgerIcon || !closeIcon) return;
-    if (toggle.dataset.initialized === "true") return;
-    toggle.dataset.initialized = "true";
+      toggle.addEventListener("click", () => {
+        const isOpen = toggle.getAttribute("aria-expanded") === "true";
+        toggle.setAttribute("aria-expanded", String(!isOpen));
 
-    toggle.addEventListener("click", () => {
-      const isOpen = toggle.getAttribute("aria-expanded") === "true";
-      toggle.setAttribute("aria-expanded", String(!isOpen));
-
-      if (isOpen) {
-        menu.style.maxHeight = "0";
-        menu.style.opacity = "0";
-        menu.classList.add("pointer-events-none");
-        hamburgerIcon.classList.remove("hidden");
-        closeIcon.classList.add("hidden");
-      } else {
-        menu.style.maxHeight = menu.scrollHeight + "px";
-        menu.style.opacity = "1";
-        menu.classList.remove("pointer-events-none");
-        hamburgerIcon.classList.add("hidden");
-        closeIcon.classList.remove("hidden");
-      }
-    });
-  }
-
-  function initGlassEffects() {
-    const nav = document.getElementById("glass-nav");
-    const shine = document.getElementById("glass-shine");
-    if (!nav || !shine) return;
-    if (nav.dataset.initialized === "true") return;
-    nav.dataset.initialized = "true";
-
-    // Cursor-follow shine
-    nav.addEventListener("mousemove", (e) => {
-      const rect = nav.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 100;
-      const y = ((e.clientY - rect.top) / rect.height) * 100;
-      nav.style.setProperty("--x", `${x}%`);
-      nav.style.setProperty("--y", `${y}%`);
-    });
-
-    nav.addEventListener("mouseenter", () => {
-      animate(shine, { opacity: 1 }, { duration: 0.3 });
-    });
-
-    nav.addEventListener("mouseleave", () => {
-      animate(shine, { opacity: 0 }, { duration: 0.3 });
-    });
-
-    // Scroll-based intensity: more blur + more opaque as user scrolls down
-    let ticking = false;
-    function updateOnScroll() {
-      const scrollY = window.scrollY;
-      const progress = Math.min(scrollY / 120, 1); // 0 → 1 over first 120px
-
-      // Interpolate blur (12px → 24px) and bg opacity (0.5 → 0.75)
-      const blur = 12 + progress * 12;
-      const bgOpacity = 0.5 + progress * 0.25;
-
-      nav.style.backdropFilter = `blur(${blur}px) saturate(150%)`;
-      (nav.style as any).webkitBackdropFilter =
-        `blur(${blur}px) saturate(150%)`;
-      nav.style.backgroundColor = `rgba(245, 231, 207, ${bgOpacity})`; // cream in rgba
-
-      ticking = false;
+        if (isOpen) {
+          menu.style.maxHeight = "0";
+          menu.style.opacity = "0";
+          menu.classList.add("pointer-events-none");
+          hamburgerIcon.classList.remove("hidden");
+          closeIcon.classList.add("hidden");
+        } else {
+          menu.style.maxHeight = menu.scrollHeight + "px";
+          menu.style.opacity = "1";
+          menu.classList.remove("pointer-events-none");
+          hamburgerIcon.classList.add("hidden");
+          closeIcon.classList.remove("hidden");
+        }
+      });
     }
 
-    window.addEventListener("scroll", () => {
-      if (!ticking) {
-        requestAnimationFrame(updateOnScroll);
-        ticking = true;
+    function initGlassEffects() {
+      const nav = document.getElementById("glass-nav");
+      const shine = document.getElementById("glass-shine");
+      if (!nav || !shine) return;
+      if (nav.dataset.initialized === "true") return;
+      nav.dataset.initialized = "true";
+
+      nav.addEventListener("mousemove", (e) => {
+        const rect = nav.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        nav.style.setProperty("--x", `${x}%`);
+        nav.style.setProperty("--y", `${y}%`);
+      });
+
+      nav.addEventListener("mouseenter", () => {
+        shine.style.opacity = "1";
+      });
+
+      nav.addEventListener("mouseleave", () => {
+        shine.style.opacity = "0";
+      });
+
+      let ticking = false;
+      function updateOnScroll() {
+        const scrollY = window.scrollY;
+        const progress = Math.min(scrollY / 120, 1);
+        const blur = 12 + progress * 12;
+        const bgOpacity = 0.5 + progress * 0.25;
+
+        nav.style.backdropFilter = `blur(${blur}px) saturate(150%)`;
+        (nav.style as any).webkitBackdropFilter =
+          `blur(${blur}px) saturate(150%)`;
+        nav.style.backgroundColor = `rgba(245, 231, 207, ${bgOpacity})`;
+
+        ticking = false;
       }
-    });
 
-    updateOnScroll();
-  }
+      window.addEventListener("scroll", () => {
+        if (!ticking) {
+          requestAnimationFrame(updateOnScroll);
+          ticking = true;
+        }
+      });
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () => {
+      updateOnScroll();
+    }
+
+    function initDropdown() {
+      const groups = document.querySelectorAll<HTMLElement>(
+        "[data-dropdown-group]",
+      );
+
+      groups.forEach((group) => {
+        if (group.dataset.initialized === "true") return;
+        group.dataset.initialized = "true";
+
+        const trigger = group.querySelector<HTMLButtonElement>(
+          "[data-dropdown-trigger]",
+        );
+        const panel = group.querySelector<HTMLElement>("[data-dropdown-panel]");
+        const chevron = group.querySelector<SVGElement>(
+          "[data-dropdown-chevron]",
+        );
+
+        if (!trigger || !panel) return;
+
+        let closeTimeout: ReturnType<typeof setTimeout>;
+
+        function open() {
+          clearTimeout(closeTimeout);
+          panel!.classList.remove(
+            "opacity-0",
+            "scale-95",
+            "pointer-events-none",
+          );
+          panel!.classList.add("opacity-100", "scale-100");
+          trigger!.setAttribute("aria-expanded", "true");
+          chevron?.classList.add("rotate-180");
+        }
+
+        function close() {
+          closeTimeout = setTimeout(() => {
+            panel!.classList.add(
+              "opacity-0",
+              "scale-95",
+              "pointer-events-none",
+            );
+            panel!.classList.remove("opacity-100", "scale-100");
+            trigger!.setAttribute("aria-expanded", "false");
+            chevron?.classList.remove("rotate-180");
+          }, 120);
+        }
+
+        group.addEventListener("mouseenter", open);
+        group.addEventListener("mouseleave", close);
+
+        trigger.addEventListener("click", () => {
+          const isOpen = trigger.getAttribute("aria-expanded") === "true";
+          isOpen ? close() : open();
+        });
+
+        document.addEventListener("click", (e) => {
+          if (!group.contains(e.target as Node)) close();
+        });
+      });
+    }
+
+    function initAll() {
       initMobileMenu();
       initGlassEffects();
-    });
-  } else {
-    initMobileMenu();
-    initGlassEffects();
-  }
+      initDropdown();
+    }
 
-  document.addEventListener("astro:page-load", () => {
-    initMobileMenu();
-    initGlassEffects();
-  });
-</script> -->
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initAll);
+    } else {
+      initAll();
+    }
+
+    document.addEventListener("astro:page-load", initAll);
+  </script>
+</header>
