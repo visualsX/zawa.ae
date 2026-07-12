@@ -1,7 +1,222 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import ServiceHero from "../../components/services/ServiceHero.astro";
+import ServiceGrid from "../../components/services/ServiceGrid.astro";
+import ServiceInfoBox from "../../components/services/ServiceInfoBox.astro";
+import ServiceDetails from "../../components/services/ServiceDetails.astro";
+import ServiceBenefits from "../../components/services/ServiceBenefits.astro";
+import Accordion from "../../components/shared/accordion.astro";
+import Faqs from "../../components/shared/faqs.astro";
+
+const gridServices = [
+  {
+    id: "general-pest-control",
+    title: "General Pest Control",
+    description:
+      "Comprehensive solutions to protect your property from common pests like ants, spiders, roaches, and more.",
+  },
+  {
+    id: "high-impact-mosquito-traps",
+    title: "High-impact mosquito traps",
+    description:
+      "Season-long mosquito population suppression is the goal of our traps program. Critical for homes with minimal vegetation.",
+  },
+  {
+    id: "spray-treatment-traps",
+    title: "Spray treatment & traps",
+    description:
+      "Combining both services is the best way to control mosquitoes on your property, ensuring we stop them at various points of their lifecycle.",
+  },
+  {
+    id: "lawn-garden-fertilization",
+    title: "Lawn & Garden Fertilization",
+    description:
+      "Nourish your plants with our customized, eco-friendly fertilization programs for robust, season-long growth.",
+  },
+];
+
+const detailedServices = [
+  {
+    id: "general-pest-control",
+    title: "General Pest Control",
+    image: "https://api.gardenhub.ae/Media/Business/pest.webp",
+    items: [
+      {
+        question: "What do we do?",
+        answer:
+          "We offer comprehensive indoor and outdoor treatments to eliminate common pests and prevent future infestations.",
+      },
+      {
+        question: "How often do we come?",
+        answer:
+          "We offer flexible plans ranging from one-time treatments to regular quarterly maintenance.",
+      },
+      {
+        question: "Why is our service better?",
+        answer:
+          "Our technicians use eco-friendly, family-safe products that target pests effectively without harming your environment.",
+      },
+      {
+        question: "How much does it cost?",
+        answer:
+          "Pricing depends on the size of your property and the severity of the infestation. Contact us for a free quote.",
+      },
+    ],
+  },
+  {
+    id: "high-impact-mosquito-traps",
+    title: "High-impact mosquito traps",
+    image: "https://api.gardenhub.ae/Media/Business/mosquito-trap.webp",
+    items: [
+      {
+        question: "What do we do?",
+        answer:
+          "We install and maintain purpose-built larvicide traps that attract female mosquitoes, infecting both larva and adults.",
+      },
+      {
+        question: "How often do we come?",
+        answer:
+          "Our traps need to be serviced every 4 weeks, although we will service them more frequently if necessary.",
+      },
+      {
+        question: "Why is our service better?",
+        answer:
+          "We don't charge expensive installation fees. We also remove them for cleaning and storage every winter.",
+      },
+      {
+        question: "How much does it cost?",
+        answer:
+          "That depends on the size of your property and the appropriate number of traps needed. Give us a call for pricing.",
+      },
+    ],
+  },
+  {
+    id: "spray-treatment-traps",
+    title: "Spray treatment & traps",
+    image: "https://api.gardenhub.ae/Media/Business/spray.webp",
+    items: [
+      {
+        question: "What do we do?",
+        answer:
+          "We combine immediate spray knockdowns with long-term trap suppression for the ultimate pest control strategy.",
+      },
+      {
+        question: "How often do we come?",
+        answer:
+          "We synchronize both the spray applications and trap maintenance on a reliable 3 to 4-week schedule.",
+      },
+      {
+        question: "Why is our service better?",
+        answer:
+          "It provides the highest level of property protection by aggressively disrupting every single stage of the mosquito lifecycle.",
+      },
+      {
+        question: "How much does it cost?",
+        answer:
+          "We offer special bundled pricing for households combining these services. Request a personalized quote to learn more.",
+      },
+    ],
+  },
+  {
+    id: "lawn-garden-fertilization",
+    title: "Lawn & Garden Fertilization",
+    image: "https://api.gardenhub.ae/Media/Business/fertilizers.webp",
+    items: [
+      {
+        question: "What do we do?",
+        answer:
+          "We deliver custom nutrient blends based on soil analysis to promote robust root systems and vibrant growth.",
+      },
+      {
+        question: "How often do we come?",
+        answer:
+          "Treatments are applied seasonally at strategic times to align perfectly with your lawn's natural growth cycle.",
+      },
+      {
+        question: "Why is our service better?",
+        answer:
+          "We use eco-friendly organic options that deeply nourish soil biology without harsh chemical runoff.",
+      },
+      {
+        question: "How much does it cost?",
+        answer:
+          "Costs vary by lawn square footage and current soil condition. Get your free personalized estimate today.",
+      },
+    ],
+  },
+];
+
+const faqs = [
+  {
+    question: "Are your pest control treatments safe for pets and children?",
+    answer:
+      "Yes, all our pest control and mosquito treatments are carefully formulated to be family and pet-friendly.",
+  },
+  {
+    question: "How long does a mosquito spray treatment last?",
+    answer:
+      "Our spray treatments typically provide a strong protective barrier for 3 to 4 weeks, depending on weather conditions.",
+  },
+  {
+    question: "Do I need both spray treatments and mosquito traps?",
+    answer:
+      "While either service is effective, combining both is the best way to disrupt the mosquito lifecycle and ensure maximum protection.",
+  },
+  {
+    question: "Do you offer one-time pest control services?",
+    answer:
+      "We offer both one-time emergency treatments and recurring quarterly maintenance plans to suit your needs.",
+  },
+];
 ---
 
 <Layout>
-  <h1>Plant care</h1>
+  <ServiceHero
+    title="Plant Care & Pest Control"
+    description="Protect and nourish your green spaces with our expert, family-friendly treatments and fertilization programs."
+  >
+    <img
+      fetchpriority="high"
+      src="/icons/mosquitol.svg"
+      alt=""
+      class="absolute z-1 pointer-events-none right-0 top-5 w-96 sm:w-60 md:w-70"
+      aria-hidden="true"
+    />
+  </ServiceHero>
+
+  <ServiceGrid title="Our Services" services={gridServices} />
+
+  <ServiceInfoBox
+    question="Are you struggling with persistent pests or yellowing lawns?"
+    subtext="Our specialized teams can assess your property and build a tailored care plan. We're here to help!"
+  />
+
+  <ServiceDetails services={detailedServices} />
+
+  <ServiceBenefits
+    title="We believe in creating healthy, pest-free outdoor spaces that flourish in harmony with nature. That's why we incorporate safe, sustainable practices into every treatment."
+  />
+
+  <Faqs faqs={faqs} title="Your pest control & plant care questions answered" />
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", (e) => {
+          const targetId = anchor.getAttribute("href");
+          if (targetId === "#contact" || targetId === "#") return;
+
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            e.preventDefault();
+            targetElement.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+            history.pushState(null, "", targetId);
+          }
+        });
+      });
+    });
+  </script>
 </Layout>

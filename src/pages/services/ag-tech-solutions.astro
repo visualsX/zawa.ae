@@ -1,7 +1,226 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import ServiceHero from "../../components/services/ServiceHero.astro";
+import ServiceGrid from "../../components/services/ServiceGrid.astro";
+import ServiceInfoBox from "../../components/services/ServiceInfoBox.astro";
+import ServiceDetails from "../../components/services/ServiceDetails.astro";
+import ServiceBenefits from "../../components/services/ServiceBenefits.astro";
+import Accordion from "../../components/shared/accordion.astro";
+import Faqs from "../../components/shared/faqs.astro";
+
+const gridServices = [
+  {
+    id: "greenhouse",
+    title: "Greenhouse",
+    description:
+      "State-of-the-art climate control systems for optimized year-round farming.",
+  },
+  {
+    id: "hydroponics",
+    title: "Hydroponics",
+    description:
+      "Water-efficient, soil-less cultivation systems for rapid crop growth.",
+  },
+  {
+    id: "indoor-vertical-farm",
+    title: "Indoor Vertical Farm",
+    description:
+      "High-density crop production in fully controlled agricultural environments.",
+  },
+  {
+    id: "urban-farm-development",
+    title: "Urban Farm Development",
+    description:
+      "Transforming urban spaces into sustainable local food sources.",
+  },
+];
+
+const detailedServices = [
+  {
+    id: "greenhouse",
+    title: "Greenhouse",
+    image:
+      "https://api.gardenhub.ae/Media/Business/2a887b80-917c-476f-9782-eba6f5b75a58.webp",
+    items: [
+      {
+        question: "What do we do?",
+        answer:
+          "We design and build state-of-the-art greenhouses with automated climate control systems for optimized year-round farming.",
+      },
+      {
+        question: "How long does it take?",
+        answer:
+          "Construction timelines range from a few weeks to several months depending on the scale and complexity of your facility.",
+      },
+      {
+        question: "Why is our service better?",
+        answer:
+          "Our structures are engineered for maximum yield while being robust enough to withstand extreme local weather conditions.",
+      },
+      {
+        question: "How much does it cost?",
+        answer:
+          "Project costs are tailored to your commercial needs and technical specifications. Reach out to discuss your specific requirements.",
+      },
+    ],
+  },
+  {
+    id: "hydroponics",
+    title: "Hydroponics",
+    image:
+      "https://api.gardenhub.ae/Media/Business/426c4c72-0047-4ed8-831b-9338fabcf25b.webp",
+    items: [
+      {
+        question: "What do we do?",
+        answer:
+          "We install water-efficient, soil-less cultivation systems that deliver rapid crop growth through recirculating nutrient solutions.",
+      },
+      {
+        question: "How often do we come?",
+        answer:
+          "We offer regular maintenance plans to calibrate your nutrient solutions and check overall system health.",
+      },
+      {
+        question: "Why is our service better?",
+        answer:
+          "Our hydroponics systems use up to 90% less water than traditional farming and completely eliminate soil-borne diseases.",
+      },
+      {
+        question: "How much does it cost?",
+        answer:
+          "Your investment depends on the system capacity and the level of automation. Contact us to get an accurate estimate.",
+      },
+    ],
+  },
+  {
+    id: "indoor-vertical-farm",
+    title: "Indoor Vertical Farm",
+    image:
+      "https://api.gardenhub.ae/Media/Business/f135e72c-b418-4f86-abc1-33a8718f04be.webp",
+    items: [
+      {
+        question: "What do we do?",
+        answer:
+          "We set up high-density crop production shelving in fully controlled agricultural environments to maximize yield per square foot.",
+      },
+      {
+        question: "How long does it take?",
+        answer:
+          "Implementation time scales with facility size, but our modular systems are designed for rapid deployment.",
+      },
+      {
+        question: "Why is our service better?",
+        answer:
+          "We provide true end-to-end integration of lighting, humidity, and nutrients to guarantee consistent year-round harvests.",
+      },
+      {
+        question: "How much does it cost?",
+        answer:
+          "Costs vary based on the physical footprint and technology stack you choose. Reach out for a detailed proposal.",
+      },
+    ],
+  },
+  {
+    id: "urban-farm-development",
+    title: "Urban Farm Development",
+    image:
+      "https://api.gardenhub.ae/Media/Business/31e09b7c-960c-4c0d-92f7-384b4680a1a9.webp",
+    items: [
+      {
+        question: "What do we do?",
+        answer:
+          "We transform unused urban spaces—like rooftops and vacant lots—into highly productive, community-focused agricultural zones.",
+      },
+      {
+        question: "How long does it take?",
+        answer:
+          "From initial concept to your very first harvest, we work efficiently to establish your urban farm on time.",
+      },
+      {
+        question: "Why is our service better?",
+        answer:
+          "We specialize in sustainable, space-saving designs that are custom-tailored to navigate complex urban environments.",
+      },
+      {
+        question: "How much does it cost?",
+        answer:
+          "Pricing entirely depends on your site's readiness and the scope of the project. Let's get together and discuss your vision!",
+      },
+    ],
+  },
+];
+
+const faqs = [
+  {
+    question: "Are your hydroponic systems suitable for commercial farming?",
+    answer:
+      "Yes, our hydroponic and greenhouse solutions are highly scalable and designed to meet the demands of commercial agriculture.",
+  },
+  {
+    question: "How much space is required for an indoor vertical farm?",
+    answer:
+      "Vertical farming is highly space-efficient. We can custom-design systems to fit virtually any indoor footprint, from small rooms to large warehouses.",
+  },
+  {
+    question: "Do you provide ongoing support for Ag-Tech installations?",
+    answer:
+      "Yes, we offer complete end-to-end support, including system maintenance, crop monitoring, and climate control optimization.",
+  },
+  {
+    question: "Can urban farms be developed on rooftops?",
+    answer:
+      "Definitely. We specialize in transforming unused urban spaces like rooftops and vacant lots into productive agricultural zones.",
+  },
+];
 ---
 
 <Layout>
-  <h1>smart agtech solution</h1>
+  <ServiceHero
+    title="Ag-Tech Solutions"
+    description="Empowering the future of farming with innovative agricultural technology tailored for efficiency, sustainability, and high yield."
+  >
+    <img
+      fetchpriority="high"
+      src="/icons/agtech.svg"
+      alt=""
+      class="absolute z-1 pointer-events-none right-0 top-5 w-96 sm:w-60 md:w-70"
+      aria-hidden="true"
+    />
+  </ServiceHero>
+
+  <ServiceGrid title="Our Ag-Tech Services" services={gridServices} />
+
+  <ServiceInfoBox
+    question="Are you a commercial grower or investor?"
+    subtext="Looking for a technology partner to design and scale your next agricultural venture? We'd love to help!"
+  />
+
+  <ServiceDetails services={detailedServices} />
+
+  <ServiceBenefits
+    title="We believe in cultivating the future of farming with innovative technology. That's why we build sustainable, high-yield agricultural systems tailored for your success."
+  />
+
+  <Faqs faqs={faqs} title="Your agricultural technology questions answered" />
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          const targetId = this.getAttribute("href");
+          if (targetId === "#contact" || targetId === "#") return;
+
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            e.preventDefault();
+            targetElement.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+            history.pushState(null, "", targetId);
+          }
+        });
+      });
+    });
+  </script>
 </Layout>

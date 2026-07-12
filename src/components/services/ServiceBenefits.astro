@@ -1,0 +1,173 @@
+---
+export interface Props {
+  title?: string;
+}
+
+const {
+  title = "We believe in creating beautiful outdoor spaces that flourish in harmony with nature. That's why we incorporate sustainable practices into every project.",
+} = Astro.props;
+
+const topCards = [
+  {
+    title: "Effortless<br />maintenance",
+    icon: "/icons/effortless.svg",
+    description: "Enjoy a beautiful landscape without the hassle.",
+  },
+  {
+    title: "Reduced costs",
+    icon: "/icons/reduce-cost.svg",
+    description:
+      "Long-term solutions and low-maintenance landscapes reduces operational expenses.",
+  },
+  {
+    title: "Premium services",
+    icon: "/icons/premium-services.svg",
+    description: "Experience lasting beauty with our meticulous work.",
+  },
+  {
+    title: "Time efficiency",
+    icon: "/icons/time-efficiency.svg",
+    description: "Stay on track and meet even the tightest deadlines.",
+  },
+];
+
+const bottomCards = [
+  {
+    title: "Peace of mind with<br />every season",
+    icon: "/icons/every-season.svg",
+    description:
+      "We proactively identify potential hazards and implement preventive measures to mitigate them before they occur",
+  },
+  {
+    title: "24/7 Uninterrupted<br />Service",
+    icon: "/icons/24by7white.svg",
+    description:
+      "Address urgent concerns or scheduling needs outside of regular business hours.",
+  },
+  {
+    title: "Certified Professionals",
+    icon: "/icons/boots.svg",
+    description:
+      "Comprises highly trained and certified technicians who adhere to strict safety protocols during installation and maintenance work.",
+  },
+  {
+    title: "Greener spaces,<br />happier employees",
+    icon: "/icons/glass-wear.svg",
+    description:
+      "Inviting Spaces to enhance Employee Well-Being & Productivity",
+  },
+];
+---
+
+<section
+  class="relative z-20 w-full bg-[#F9F8F1] py-24 md:px-6 overflow-hidden"
+>
+  <div class="container-custom">
+    <!-- Top Part: Belief Statement -->
+    <div class="mb-20">
+      <h2
+        class="font-awesome text-4xl md:text-5xl lg:text-6xl text-[#8E795D] font-medium leading-tight mb-10"
+      >
+        {title}
+      </h2>
+      <div
+        class="flex flex-wrap gap-4 font-sora text-sm md:text-base font-semibold"
+      >
+        <a
+          href="#quote"
+          class="bg-forest text-cream px-8 py-3 rounded-full hover:bg-forest/90 transition-colors"
+        >
+          Get a free quote
+        </a>
+        <a
+          href="#call"
+          class="bg-transparent border border-forest text-forest px-8 py-3 rounded-full hover:bg-forest hover:text-cream transition-colors"
+        >
+          Give us a call
+        </a>
+      </div>
+    </div>
+
+    <!-- Top 4 Cards (Pill shaped) -->
+    <div class="relative w-full mb-32">
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10"
+      >
+        {
+          topCards.map((card) => (
+            <div class="bg-white rounded-[80px] px-6 py-14 flex flex-col items-center text-center shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-shadow relative">
+              <h3
+                class="font-sora font-bold text-forest text-lg mb-6 leading-snug"
+                set:html={card.title}
+              />
+              <img
+                src={card.icon}
+                alt={card.title.replace("<br />", " ")}
+                class="w-16 h-16 mb-6"
+              />
+              <p class="font-sora text-xs text-forest/70 leading-relaxed max-w-[180px]">
+                {card.description}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+
+      <!-- Circular rotating text (absolute positioned) -->
+      <!-- <div
+        class="hidden lg:block absolute -right-16 bottom-0 translate-y-1/4 translate-x-12 z-20 w-48 h-48 animate-[spin_12s_linear_infinite] pointer-events-none"
+      >
+        <svg viewBox="0 0 100 100" width="100%" height="100%">
+          <defs>
+            <path
+              id="circlePath"
+              d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0"
+            ></path>
+          </defs>
+          <text
+            font-family="Sora, sans-serif"
+            font-weight="bold"
+            font-size="10.5"
+            fill="#EF5E41"
+            letter-spacing="1"
+          >
+            <textPath href="#circlePath" startOffset="0%">
+              family values ✦ corporate services ✦
+            </textPath>
+          </text>
+        </svg>
+      </div> -->
+    </div>
+
+    <!-- Bottom Part: Strategic Partner -->
+    <div class="w-full flex flex-col items-center mb-16 mt-24">
+      <h2
+        class="font-awesome text-4xl md:text-5xl lg:text-6xl text-forest font-bold text-center max-w-4xl leading-tight"
+      >
+        Your strategic partner with measurable benefits for your business
+      </h2>
+    </div>
+
+    <!-- Bottom 4 Dark Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {
+        bottomCards.map((card) => (
+          <div class="bg-forest rounded-xl p-8 flex flex-col items-center text-center h-full border border-teal/10 hover:border-teal/30 transition-colors">
+            <h3
+              class="font-sora font-semibold text-cream text-lg mb-8 h-14 flex items-center justify-center leading-snug"
+              set:html={card.title}
+            />
+            <img
+              src={card.icon}
+              alt={card.title.replace("<br />", " ")}
+              class="w-16 h-16 mb-8"
+            />
+            <p class="font-sora text-xs text-cream/70 leading-relaxed mt-auto">
+              {card.description}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

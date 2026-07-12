@@ -1,0 +1,94 @@
+---
+export interface Props {
+  services: {
+    id: string;
+    title: string;
+    image: string;
+    items: { question: string; answer: string }[];
+  }[];
+}
+
+const { services } = Astro.props;
+
+const getLayoutClasses = (index: number) => {
+  switch (index) {
+    case 0:
+      return "flex-col md:flex-row";
+    case 1:
+      return "flex-col md:flex-row-reverse bg-[#83732b]/20 md:rounded-[3rem] py-10 md:p-8 md:p-12 lg:p-16";
+    case 2:
+      return "flex-col md:flex-row";
+    case 3:
+      return "flex-col md:flex-row-reverse bg-forest/5 md:rounded-[3rem] py-10 md:p-8 md:p-12 lg:p-16";
+    default:
+      return "flex-col md:flex-row";
+  }
+};
+
+const getIconColorClass = (index: number) => {
+  switch (index) {
+    case 0:
+      return "text-olive";
+    case 1:
+      return "text-forest";
+    case 2:
+      return "text-olive";
+    case 3:
+      return "text-teal";
+    default:
+      return "text-olive";
+  }
+};
+
+const icons = [
+  '<svg class="shrink-0 mt-1 ICON_COLOR w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.29 7 12 12 20.71 7"/><line x1="12" y1="22" x2="12" y2="12"/></svg>',
+  '<svg class="shrink-0 mt-1 ICON_COLOR w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+  '<svg class="shrink-0 mt-1 ICON_COLOR w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+  '<svg class="shrink-0 mt-1 ICON_COLOR w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>',
+];
+---
+
+<section class="relative z-20 bg-cream md:px-6 pb-12 md:pb-24 space-y-24">
+  {
+    services.map((service, index) => {
+      const layoutClasses = getLayoutClasses(index);
+      const iconColor = getIconColorClass(index);
+
+      return (
+        <div
+          id={service.id}
+          class={`container-custom flex items-center gap-12 scroll-mt-32 ${layoutClasses}`}
+        >
+          <div class="md:w-1/2">
+            <h2 class="font-awesome text-4xl md:text-5xl text-forest font-bold mb-8">
+              {service.title}
+            </h2>
+            <ul class="space-y-6 font-sora text-forest/80">
+              {service.items.map((item, itemIndex) => (
+                <li class="flex gap-4">
+                  <div
+                    set:html={icons[itemIndex].replace("ICON_COLOR", iconColor)}
+                  />
+                  <div>
+                    <strong class="text-forest block mb-1">
+                      {item.question}
+                    </strong>
+                    {item.answer}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div class="md:w-1/2">
+            <img
+              src={service.image}
+              alt={service.title}
+              class="rounded-4xl w-full h-auto object-cover shadow-xl aspect-square md:aspect-4/5 lg:aspect-square"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      );
+    })
+  }
+</section>

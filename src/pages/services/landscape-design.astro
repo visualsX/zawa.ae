@@ -1,7 +1,234 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import ServiceHero from "../../components/services/ServiceHero.astro";
+import ServiceGrid from "../../components/services/ServiceGrid.astro";
+import ServiceInfoBox from "../../components/services/ServiceInfoBox.astro";
+import ServiceDetails from "../../components/services/ServiceDetails.astro";
+import ServiceBenefits from "../../components/services/ServiceBenefits.astro";
+import Accordion from "../../components/shared/accordion.astro";
+import Faqs from "../../components/shared/faqs.astro";
+
+const gridServices = [
+  {
+    id: "landscaping",
+    title: "Landscaping",
+    description:
+      "Custom design and execution for stunning residential and commercial outdoor spaces.",
+  },
+  {
+    id: "vertical-green-walls",
+    title: "Vertical Green Walls",
+    description:
+      "Innovative space-saving green solutions for indoor and outdoor environments.",
+  },
+  {
+    id: "wholesale-plant-supply",
+    title: "Wholesale Plant Supply",
+    description:
+      "Wide variety of indoor and outdoor plants sourced from premium local growers.",
+  },
+  {
+    id: "annual-maintenance-contract",
+    title: "Annual Maintenance (AMC)",
+    description:
+      "Comprehensive year-round care to keep your gardens lush and healthy.",
+  },
+];
+
+const detailedServices = [
+  {
+    id: "landscaping",
+    title: "Landscaping",
+    image:
+      "https://api.gardenhub.ae/Media/Business/6c93c569-7843-4302-af8d-85a9ca852176.webp",
+    items: [
+      {
+        question: "What do we do?",
+        answer:
+          "We provide custom design and execution for stunning residential and commercial outdoor spaces.",
+      },
+      {
+        question: "How long does it take?",
+        answer:
+          "Timelines vary from a few days for light softscaping to several weeks for full hardscape integration.",
+      },
+      {
+        question: "Why is our service better?",
+        answer:
+          "We balance functional beauty with sustainable, eco-friendly practices that last for generations.",
+      },
+      {
+        question: "How much does it cost?",
+        answer:
+          "Every project is unique. We provide detailed bids after a comprehensive site visit and consultation.",
+      },
+    ],
+  },
+  {
+    id: "vertical-green-walls",
+    title: "Vertical Green Walls",
+    image:
+      "https://api.gardenhub.ae/Media/Business/0dcc1c3e-c07c-4f91-be71-57173987cbb4.webp",
+    items: [
+      {
+        question: "What do we do?",
+        answer:
+          "We install innovative space-saving green solutions for both indoor and outdoor environments.",
+      },
+      {
+        question: "How often do we maintain?",
+        answer:
+          "We offer automated irrigation setups and monthly maintenance visits to keep your walls vibrant.",
+      },
+      {
+        question: "Why is our service better?",
+        answer:
+          "Our customizable systems thrive in any environment while maximizing floor space and improving air quality.",
+      },
+      {
+        question: "How much does it cost?",
+        answer:
+          "Pricing is calculated per square foot and varies by plant selection. Ask us for a personalized quote!",
+      },
+    ],
+  },
+  {
+    id: "wholesale-plant-supply",
+    title: "Wholesale Plant Supply",
+    image:
+      "https://api.gardenhub.ae/Media/Business/1a0844ee-fdc3-480c-93d6-3722536175b1.webp",
+    items: [
+      {
+        question: "What do we do?",
+        answer:
+          "We supply a wide variety of premium indoor and outdoor plants for large-scale landscaping projects.",
+      },
+      {
+        question: "How fast is delivery?",
+        answer:
+          "We offer expedited sourcing and streamlined delivery logistics to align perfectly with your project timelines.",
+      },
+      {
+        question: "Why is our service better?",
+        answer:
+          "We partner directly with top-tier local and international growers to guarantee robust, top-quality plant health.",
+      },
+      {
+        question: "How much does it cost?",
+        answer:
+          "We offer highly competitive bulk pricing tiers for nurseries and commercial developers. Reach out for a rate sheet.",
+      },
+    ],
+  },
+  {
+    id: "annual-maintenance-contract",
+    title: "Annual Maintenance Contract (AMC)",
+    image: "https://api.gardenhub.ae/Media/Business/images.webp",
+    items: [
+      {
+        question: "What do we do?",
+        answer:
+          "We provide comprehensive year-round care, including pruning, fertilizing, and proactive health management.",
+      },
+      {
+        question: "How often do we come?",
+        answer:
+          "We schedule weekly, bi-weekly, or monthly maintenance visits depending on your landscape's unique needs.",
+      },
+      {
+        question: "Why is our service better?",
+        answer:
+          "You get a dedicated team of horticultural experts proactively managing your property's long-term health.",
+      },
+      {
+        question: "How much does it cost?",
+        answer:
+          "Contracts are priced based on property size and service frequency. Contact us to get your custom quote today.",
+      },
+    ],
+  },
+];
+
+const faqs = [
+  {
+    question:
+      "Do you provide 3D renderings of the landscape design before starting?",
+    answer:
+      "Yes, we offer comprehensive 3D design renderings so you can visualize the final result before any construction begins.",
+  },
+  {
+    question: "What is included in the Annual Maintenance Contract?",
+    answer:
+      "Our AMC includes regular pruning, fertilization, irrigation checks, and proactive health management for your entire landscape.",
+  },
+  {
+    question: "Can vertical green walls be installed indoors?",
+    answer:
+      "Absolutely! Our vertical green walls are designed for both indoor and outdoor environments, complete with integrated irrigation.",
+  },
+  {
+    question: "Do you supply plants for large commercial projects?",
+    answer:
+      "Yes, our wholesale plant supply is fully equipped to handle large-scale commercial developments and nursery orders.",
+  },
+];
 ---
 
 <Layout>
-  <h1>landscape-design</h1>
+  <ServiceHero
+    title="Landscape Design & Services"
+    description="Experience the difference of a naturally-cared-for landscape that is beautiful, sustainable, and tailored to your unique needs."
+  >
+    <img
+      fetchpriority="high"
+      src="/icons/flowersl.svg"
+      alt=""
+      class="absolute z-1 pointer-events-none right-0 top-5 w-96 sm:w-60 md:w-70"
+      aria-hidden="true"
+    />
+  </ServiceHero>
+
+  <ServiceGrid title="What services do we offer?" services={gridServices} />
+
+  <ServiceInfoBox
+    question="Don’t see your type of business listed?"
+    subtext="Don’t worry, we’re happy to help any company or organization with outdoor spaces make them wonderful."
+  />
+
+  <ServiceDetails services={detailedServices} />
+
+  <ServiceBenefits />
+
+  <Faqs faqs={faqs} title="Your landscaping questions answered" />
+  <!-- <section class="w-full bg-cream py-16 sm:py-24 md:py-32 relative z-20">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 flex flex-col items-center">
+      <h2
+        class="font-awesome text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-forest text-center mb-10 sm:mb-16 md:mb-20 max-w-2xl leading-[1.1]"
+      >
+        Your landscaping questions answered
+      </h2>
+      <Accordion items={faqs} class="w-full" />
+    </div>
+  </section> -->
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          const targetId = this.getAttribute("href");
+          if (targetId === "#contact" || targetId === "#") return;
+
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            e.preventDefault();
+            targetElement.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+            history.pushState(null, "", targetId);
+          }
+        });
+      });
+    });
+  </script>
 </Layout>
