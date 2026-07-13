@@ -115,7 +115,11 @@ export function getStaticPaths() {
 const { project } = Astro.props;
 ---
 
-<Layout>
+<Layout
+  title={`${project.title} | Portfolio | Zahra Al Warsan`}
+  description={project.description}
+  image={project.image}
+>
   <!-- Hero Section -->
   <section
     class="relative z-20 w-full bg-forest pt-40 pb-24 px-4 sm:px-6 overflow-hidden"
