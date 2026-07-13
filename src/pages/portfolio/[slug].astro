@@ -1,0 +1,369 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+export function getStaticPaths() {
+  const projects = [
+    {
+      slug: "al-barsha-villa-landscape",
+      title: "Al Barsha Villa Landscape",
+      category: "Landscape Design",
+      description:
+        "Complete landscape transformation for a luxury villa in Al Barsha, featuring native drought-resistant planting, a cascading water feature, and an outdoor entertainment area.",
+      image:
+        "https://api.gardenhub.ae/Media/Business/6c93c569-7843-4302-af8d-85a9ca852176.webp",
+      outcomes: [
+        "40% reduction in water usage through smart irrigation",
+        "Increased property value by an estimated 15%",
+        "Year-round greenery with minimal maintenance",
+      ],
+      beforeImage:
+        "https://api.gardenhub.ae/Media/Business/31e09b7c-960c-4c0d-92f7-384b4680a1a9.webp",
+      afterImage:
+        "https://api.gardenhub.ae/Media/Business/6c93c569-7843-4302-af8d-85a9ca852176.webp",
+      caseStudy: {
+        challenge:
+          "The villa's outdoor area was a barren, sun-scorched plot with poor soil quality and no shade structures. The homeowner wanted a lush oasis for entertaining guests while keeping water consumption low.",
+        solution:
+          "We designed a multi-zone landscape plan with native UAE plants, a drip irrigation system, and strategic shade pergolas. Hardscaping with natural stone pathways connected an outdoor lounge to a private garden retreat.",
+        result:
+          "The property was transformed into a verdant retreat within 8 weeks. The smart irrigation system reduced water bills by 40%, and the homeowner received multiple compliments from the community association.",
+      },
+    },
+    {
+      slug: "dubai-silicon-oasis-vertical-farm",
+      title: "Dubai Silicon Oasis Vertical Farm",
+      category: "Ag-Tech Solutions",
+      description:
+        "A state-of-the-art indoor vertical farming facility producing leafy greens and herbs year-round for local restaurants and grocery chains.",
+      image:
+        "https://api.gardenhub.ae/Media/Business/f135e72c-b418-4f86-abc1-33a8718f04be.webp",
+      outcomes: [
+        "12 tons of produce per year from just 200 sqm",
+        "90% less water than traditional farming",
+        "Zero pesticide usage with controlled environment",
+      ],
+      beforeImage:
+        "https://api.gardenhub.ae/Media/Business/2a887b80-917c-476f-9782-eba6f5b75a58.webp",
+      afterImage:
+        "https://api.gardenhub.ae/Media/Business/f135e72c-b418-4f86-abc1-33a8718f04be.webp",
+      caseStudy: {
+        challenge:
+          "A vacant warehouse in Dubai Silicon Oasis needed to be converted into a productive agricultural space capable of supplying fresh produce to premium clients despite the harsh desert climate.",
+        solution:
+          "We installed a multi-tier vertical farming system with automated LED grow lights, climate control, and a hydroponic nutrient delivery system. IoT sensors monitored every variable in real-time.",
+        result:
+          "The facility reached full production capacity within 3 months, delivering consistent harvests of lettuce, basil, and microgreens to 15 restaurant partners with 98% fulfillment rate.",
+      },
+    },
+    {
+      slug: "jumeirah-community-green-wall",
+      title: "Jumeirah Community Green Wall",
+      category: "Landscape Design",
+      description:
+        "A stunning 30-meter vertical green wall installation for a community center in Jumeirah, combining aesthetics with improved air quality.",
+      image:
+        "https://api.gardenhub.ae/Media/Business/0dcc1c3e-c07c-4f91-be71-57173987cbb4.webp",
+      outcomes: [
+        "Improved ambient air quality by 25% in the atrium",
+        "Reduced indoor temperature by 3°C naturally",
+        "Became a landmark attraction for the community",
+      ],
+      beforeImage:
+        "https://api.gardenhub.ae/Media/Business/426c4c72-0047-4ed8-831b-9338fabcf25b.webp",
+      afterImage:
+        "https://api.gardenhub.ae/Media/Business/0dcc1c3e-c07c-4f91-be71-57173987cbb4.webp",
+      caseStudy: {
+        challenge:
+          "The community center had a large, unattractive concrete wall facing the main atrium. Management wanted to create a visual focal point while also contributing to the building's sustainability goals.",
+        solution:
+          "We designed and installed a modular green wall system with over 2,000 carefully selected tropical and subtropical plants, integrated with an automated drip irrigation system and nutrient dosing.",
+        result:
+          "The green wall became the centerpiece of the community center, attracting visitors and press coverage. Indoor air quality improved measurably, and energy costs dropped due to natural insulation.",
+      },
+    },
+    {
+      slug: "arabian-ranches-pest-control",
+      title: "Arabian Ranches Pest Program",
+      category: "Pest Control",
+      description:
+        "Community-wide mosquito suppression program combining spray treatments and high-impact traps across 120 residential units in Arabian Ranches.",
+      image: "https://api.gardenhub.ae/Media/Business/pest.webp",
+      outcomes: [
+        "85% reduction in mosquito complaints within 6 weeks",
+        "Zero adverse reactions reported from treatments",
+        "Contract renewed for 3 consecutive years",
+      ],
+      beforeImage: "https://api.gardenhub.ae/Media/Business/spray.webp",
+      afterImage: "https://api.gardenhub.ae/Media/Business/pest.webp",
+      caseStudy: {
+        challenge:
+          "Residents of Arabian Ranches were experiencing severe mosquito issues, particularly during evenings, making outdoor dining and recreation nearly impossible. Previous pest control attempts had been ineffective.",
+        solution:
+          "We implemented a dual-approach program: targeted spray treatments every 3 weeks in heavy vegetation zones combined with strategically placed larvicide traps at key breeding points around water features and drainage areas.",
+        result:
+          "Within 6 weeks, mosquito complaints dropped by 85%. The community association renewed the contract for three consecutive years, and the program became a model for neighboring communities.",
+      },
+    },
+  ];
+
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+---
+
+<Layout>
+  <!-- Hero Section -->
+  <section
+    class="relative z-20 w-full bg-forest pt-40 pb-24 px-4 sm:px-6 overflow-hidden"
+  >
+    <div class="container-custom relative z-10">
+      <!-- <a
+        href="/portfolio"
+        class="inline-flex items-center gap-2 font-sora text-sm text-cream/60 hover:text-cream transition-colors mb-8"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m15 18-6-6 6-6"></path>
+        </svg>
+        Back to Portfolio
+      </a> -->
+      <span
+        class="inline-block font-sora text-base font-bold text-teal tracking-wider mb-4"
+      >
+        {project.category}.
+      </span>
+      <h1
+        class="font-awesome text-4xl sm:text-5xl md:text-6xl text-cream font-bold mb-6 leading-tight"
+      >
+        {project.title}
+      </h1>
+      <p class="text-cream/90 text-lg sm:text-xl max-w-2xl font-sora">
+        {project.description}
+      </p>
+      <img
+        fetchpriority="high"
+        src="/icons/phool.svg"
+        alt=""
+        class="absolute z-1 pointer-events-none right-0 top-0 w-96 sm:w-60 md:w-70 hidden md:block opacity-20"
+        aria-hidden="true"
+      />
+    </div>
+  </section>
+
+  <!-- Hero Image -->
+  <!-- <section class="relative z-20 bg-cream md:px-6">
+    <div class="container-custom">
+      <img
+        src={project.image}
+        alt={project.title}
+        class="w-full aspect-video object-cover md:rounded-b-2xl shadow-elevated"
+      />
+    </div>
+  </section> -->
+
+  <!-- Case Study Section -->
+  <section class="relative z-20 bg-cream py-16 sm:py-24 md:px-6">
+    <div class="container-custom">
+      <h2
+        class="font-awesome text-3xl sm:text-4xl md:text-5xl text-forest font-bold mb-16 text-center"
+      >
+        Case Study
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+        <!-- Challenge -->
+        <div class="bg-white/30 rounded-2xl p-6 sm:p-8 shadow-card">
+          <div
+            class="w-12 h-12 rounded-xl bg-olive/50 flex items-center justify-center mb-5"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="text-cream"
+            >
+              <path
+                d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"
+              ></path>
+              <path d="M12 9v4"></path>
+              <path d="M12 17h.01"></path>
+            </svg>
+          </div>
+          <h3 class="font-awesome text-xl text-forest font-bold mb-3">
+            The Challenge
+          </h3>
+          <p class="font-sora text-sm text-forest/70 leading-relaxed">
+            {project.caseStudy.challenge}
+          </p>
+        </div>
+
+        <!-- Solution -->
+        <div class="bg-white/30 rounded-2xl p-6 sm:p-8 shadow-card">
+          <div
+            class="w-12 h-12 rounded-xl bg-olive/50 flex items-center justify-center mb-5"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="text-cream"
+            >
+              <path
+                d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="font-awesome text-xl text-forest font-bold mb-3">
+            Our Solution
+          </h3>
+          <p class="font-sora text-sm text-forest/70 leading-relaxed">
+            {project.caseStudy.solution}
+          </p>
+        </div>
+
+        <!-- Result -->
+        <div class="bg-white/30 rounded-2xl p-6 sm:p-8 shadow-card">
+          <div
+            class="w-12 h-12 rounded-xl bg-olive/50 flex items-center justify-center mb-5"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="text-cream"
+            >
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <path d="m9 11 3 3L22 4"></path>
+            </svg>
+          </div>
+          <h3 class="font-awesome text-xl text-forest font-bold mb-3">
+            The Result
+          </h3>
+          <p class="font-sora text-sm text-forest/70 leading-relaxed">
+            {project.caseStudy.result}
+          </p>
+        </div>
+      </div>
+
+      <!-- Key Outcomes -->
+      <div class="bg-forest rounded-2xl p-8 sm:p-12 mb-20">
+        <h3
+          class="font-awesome text-2xl sm:text-3xl text-cream font-bold mb-8 text-center"
+        >
+          Key Outcomes
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          {
+            project.outcomes.map((outcome: string, i: number) => (
+              <div class="text-center bg-white/10 rounded-2xl p-6">
+                <div class="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span class="font-almendra text-4xl text-olive font-bold">
+                    #0{i + 1}
+                  </span>
+                </div>
+                <p class="font-sora text-sm text-cream/50 leading-relaxed">
+                  {outcome}
+                </p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Before & After -->
+      <div>
+        <h3
+          class="font-awesome text-2xl sm:text-3xl md:text-4xl text-forest font-bold mb-10 text-center"
+        >
+          Before & After
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="relative">
+            <span
+              class="absolute top-4 left-4 z-10 bg-forest/80 text-cream font-sora text-xs font-semibold px-4 py-1.5 rounded-full backdrop-blur-sm"
+              >Before</span
+            >
+            <img
+              src={project.beforeImage}
+              alt={`${project.title} — Before`}
+              class="w-full aspect-4/3 object-cover rounded-2xl shadow-card"
+              loading="lazy"
+            />
+          </div>
+          <div class="relative">
+            <span
+              class="absolute top-4 left-4 z-10 bg-teal/80 text-white font-sora text-xs font-semibold px-4 py-1.5 rounded-full backdrop-blur-sm"
+              >After</span
+            >
+            <img
+              src={project.afterImage}
+              alt={`${project.title} — After`}
+              class="w-full aspect-4/3 object-cover rounded-2xl shadow-card"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="relative z-20 bg-forest py-20 sm:py-28 px-4 sm:px-6">
+    <div class="container-custom text-center flex flex-col items-center">
+      <h2
+        class="font-awesome text-3xl sm:text-4xl md:text-5xl text-cream font-bold mb-6 max-w-2xl leading-tight"
+      >
+        Want similar results for your property?
+      </h2>
+      <p class="font-sora text-cream/80 text-lg mb-10 max-w-xl">
+        Let's discuss your project. We provide free consultations and customized
+        solutions for every space.
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a
+          href="/contact"
+          class="inline-block bg-teal text-white font-sora font-semibold px-10 py-4 rounded-full hover:bg-opacity-90 transition-all duration-300 transform hover:-translate-y-1 shadow-lg text-lg"
+        >
+          Get in touch
+        </a>
+        <a
+          href="/portfolio"
+          class="inline-block border border-cream/30 text-cream font-sora font-semibold px-10 py-4 rounded-full hover:bg-cream/10 transition-all duration-300 text-lg"
+        >
+          View more projects
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
