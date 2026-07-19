@@ -1,109 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-
-const projects = [
-  {
-    slug: "al-barsha-villa-landscape",
-    title: "Al Barsha Villa Landscape",
-    category: "Landscape Design",
-    description:
-      "Complete landscape transformation for a luxury villa in Al Barsha, featuring native drought-resistant planting, a cascading water feature, and an outdoor entertainment area.",
-    image:
-      "https://api.gardenhub.ae/Media/Business/6c93c569-7843-4302-af8d-85a9ca852176.webp",
-    outcomes: [
-      "40% reduction in water usage through smart irrigation",
-      "Increased property value by an estimated 15%",
-      "Year-round greenery with minimal maintenance",
-    ],
-    beforeImage:
-      "https://api.gardenhub.ae/Media/Business/31e09b7c-960c-4c0d-92f7-384b4680a1a9.webp",
-    afterImage:
-      "https://api.gardenhub.ae/Media/Business/6c93c569-7843-4302-af8d-85a9ca852176.webp",
-    caseStudy: {
-      challenge:
-        "The villa's outdoor area was a barren, sun-scorched plot with poor soil quality and no shade structures. The homeowner wanted a lush oasis for entertaining guests while keeping water consumption low.",
-      solution:
-        "We designed a multi-zone landscape plan with native UAE plants, a drip irrigation system, and strategic shade pergolas. Hardscaping with natural stone pathways connected an outdoor lounge to a private garden retreat.",
-      result:
-        "The property was transformed into a verdant retreat within 8 weeks. The smart irrigation system reduced water bills by 40%, and the homeowner received multiple compliments from the community association.",
-    },
-  },
-  {
-    slug: "dubai-silicon-oasis-vertical-farm",
-    title: "Dubai Silicon Oasis Vertical Farm",
-    category: "Ag-Tech Solutions",
-    description:
-      "A state-of-the-art indoor vertical farming facility producing leafy greens and herbs year-round for local restaurants and grocery chains.",
-    image:
-      "https://api.gardenhub.ae/Media/Business/f135e72c-b418-4f86-abc1-33a8718f04be.webp",
-    outcomes: [
-      "12 tons of produce per year from just 200 sqm",
-      "90% less water than traditional farming",
-      "Zero pesticide usage with controlled environment",
-    ],
-    beforeImage:
-      "https://api.gardenhub.ae/Media/Business/2a887b80-917c-476f-9782-eba6f5b75a58.webp",
-    afterImage:
-      "https://api.gardenhub.ae/Media/Business/f135e72c-b418-4f86-abc1-33a8718f04be.webp",
-    caseStudy: {
-      challenge:
-        "A vacant warehouse in Dubai Silicon Oasis needed to be converted into a productive agricultural space capable of supplying fresh produce to premium clients despite the harsh desert climate.",
-      solution:
-        "We installed a multi-tier vertical farming system with automated LED grow lights, climate control, and a hydroponic nutrient delivery system. IoT sensors monitored every variable in real-time.",
-      result:
-        "The facility reached full production capacity within 3 months, delivering consistent harvests of lettuce, basil, and microgreens to 15 restaurant partners with 98% fulfillment rate.",
-    },
-  },
-  {
-    slug: "jumeirah-community-green-wall",
-    title: "Jumeirah Community Green Wall",
-    category: "Landscape Design",
-    description:
-      "A stunning 30-meter vertical green wall installation for a community center in Jumeirah, combining aesthetics with improved air quality.",
-    image:
-      "https://api.gardenhub.ae/Media/Business/0dcc1c3e-c07c-4f91-be71-57173987cbb4.webp",
-    outcomes: [
-      "Improved ambient air quality by 25% in the atrium",
-      "Reduced indoor temperature by 3°C naturally",
-      "Became a landmark attraction for the community",
-    ],
-    beforeImage:
-      "https://api.gardenhub.ae/Media/Business/426c4c72-0047-4ed8-831b-9338fabcf25b.webp",
-    afterImage:
-      "https://api.gardenhub.ae/Media/Business/0dcc1c3e-c07c-4f91-be71-57173987cbb4.webp",
-    caseStudy: {
-      challenge:
-        "The community center had a large, unattractive concrete wall facing the main atrium. Management wanted to create a visual focal point while also contributing to the building's sustainability goals.",
-      solution:
-        "We designed and installed a modular green wall system with over 2,000 carefully selected tropical and subtropical plants, integrated with an automated drip irrigation system and nutrient dosing.",
-      result:
-        "The green wall became the centerpiece of the community center, attracting visitors and press coverage. Indoor air quality improved measurably, and energy costs dropped due to natural insulation.",
-    },
-  },
-  {
-    slug: "arabian-ranches-pest-control",
-    title: "Arabian Ranches Pest Program",
-    category: "Pest Control",
-    description:
-      "Community-wide mosquito suppression program combining spray treatments and high-impact traps across 120 residential units in Arabian Ranches.",
-    image: "https://api.gardenhub.ae/Media/Business/pest.webp",
-    outcomes: [
-      "85% reduction in mosquito complaints within 6 weeks",
-      "Zero adverse reactions reported from treatments",
-      "Contract renewed for 3 consecutive years",
-    ],
-    beforeImage: "https://api.gardenhub.ae/Media/Business/spray.webp",
-    afterImage: "https://api.gardenhub.ae/Media/Business/pest.webp",
-    caseStudy: {
-      challenge:
-        "Residents of Arabian Ranches were experiencing severe mosquito issues, particularly during evenings, making outdoor dining and recreation nearly impossible. Previous pest control attempts had been ineffective.",
-      solution:
-        "We implemented a dual-approach program: targeted spray treatments every 3 weeks in heavy vegetation zones combined with strategically placed larvicide traps at key breeding points around water features and drainage areas.",
-      result:
-        "Within 6 weeks, mosquito complaints dropped by 85%. The community association renewed the contract for three consecutive years, and the program became a model for neighboring communities.",
-    },
-  },
-];
+import { Image } from "astro:assets";
+import { projects } from "../../data/portfolio";
 ---
 
 <Layout
@@ -142,17 +40,17 @@ const projects = [
     <div class="container-custom">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         {
-          projects.map((project) => (
+          projects.map((project, i) => (
             <a
               href={`/portfolio/${project.slug}`}
               class="group block bg-white/20 rounded-2xl overflow-hidden shadow-card hover:shadow-elevated transition-all duration-300 hover:-translate-y-1"
             >
               <div class="aspect-16/10 overflow-hidden">
-                <img
+                <Image
                   src={project.image}
                   alt={project.title}
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
+                  loading={i < 2 ? "eager" : "lazy"}
                 />
               </div>
               <div class="p-6 sm:p-8">
