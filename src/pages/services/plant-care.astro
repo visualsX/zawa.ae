@@ -5,7 +5,6 @@ import ServiceGrid from "../../components/services/ServiceGrid.astro";
 import ServiceInfoBox from "../../components/services/ServiceInfoBox.astro";
 import ServiceDetails from "../../components/services/ServiceDetails.astro";
 import ServiceBenefits from "../../components/services/ServiceBenefits.astro";
-import Accordion from "../../components/shared/accordion.astro";
 import Faqs from "../../components/shared/faqs.astro";
 
 const gridServices = [
@@ -179,7 +178,6 @@ const faqs = [
     description="Protect and nourish your green spaces with our expert, family-friendly treatments and fertilization programs."
   >
     <img
-      fetchpriority="high"
       src="/icons/mosquitol.svg"
       alt=""
       class="absolute z-1 pointer-events-none right-0 top-5 w-96 sm:w-60 md:w-70"
@@ -201,25 +199,4 @@ const faqs = [
   />
 
   <Faqs faqs={faqs} title="Your pest control & plant care questions answered" />
-
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-        anchor.addEventListener("click", (e) => {
-          const targetId = anchor.getAttribute("href");
-          if (targetId === "#contact" || targetId === "#") return;
-
-          const targetElement = document.querySelector(targetId);
-          if (targetElement) {
-            e.preventDefault();
-            targetElement.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            });
-            history.pushState(null, "", targetId);
-          }
-        });
-      });
-    });
-  </script>
 </Layout>

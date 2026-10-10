@@ -9,5 +9,6 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
 
-  integrations: [sitemap()],
+  // Keep the 404 page out of the sitemap.
+  integrations: [sitemap({ filter: (page) => !page.includes("/404") })],
 });

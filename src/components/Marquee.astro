@@ -30,8 +30,12 @@ const {
   >
     <!-- Render twice for seamless loop -->
     {
-      [0, 1].map(() => (
-        <div class="flex items-center" style={`gap: ${gap}`}>
+      [0, 1].map((copy) => (
+        <div
+          class="flex items-center"
+          style={`gap: ${gap}`}
+          aria-hidden={copy === 1 ? "true" : undefined}
+        >
           {items.map((item, i) => (
             <>
               <span class={textClass}>

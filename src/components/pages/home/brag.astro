@@ -10,7 +10,7 @@ const cards: ServiceCard[] = [
   {
     title: "Complete plant care &<br />landscape design",
     image: "https://api.gardenhub.ae/Media/Business/lawn.webp",
-    alt: "andscape design",
+    alt: "Landscape design",
     href: "/services/landscape-design",
   },
   {
@@ -51,6 +51,8 @@ const cards: ServiceCard[] = [
               <img
                 src={card.image}
                 alt={card.alt}
+                loading="lazy"
+                decoding="async"
                 class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
               />
             </div>

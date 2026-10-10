@@ -7,22 +7,38 @@ export interface Props {
     answer: string;
   }[];
   title?: string;
+  /** Colour of the "Still have questions?" heading. */
+  accent?: "teal" | "olive";
+  class?: string;
 }
 
-const { faqs, title } = Astro.props;
+const {
+  faqs,
+  title = "Common questions answered",
+  accent = "teal",
+  class: className,
+} = Astro.props;
 ---
 
-<section class="w-full bg-cream py-16 sm:py-24 md:py-32 relative z-20">
+<section
+  class:list={[
+    "w-full bg-cream py-16 sm:py-24 md:py-32 relative z-20",
+    className,
+  ]}
+>
   <div class="max-w-3xl mx-auto px-4 sm:px-6 flex flex-col items-center">
     <h2
       class="font-awesome text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-forest text-center mb-10 sm:mb-16 md:mb-20 max-w-2xl leading-[1.1]"
     >
-      {title ?? "Common questions answered"}
+      {title}
     </h2>
     <Accordion items={faqs} class="mb-16 sm:mb-24 md:mb-32 w-full" />
     <div class="text-center flex flex-col items-center">
       <h2
-        class="font-awesome text-[2.5rem] sm:text-[3.5rem] md:text-[4.5rem] lg:text-[6.5rem] text-teal leading-[0.9] mb-6 sm:mb-8"
+        class:list={[
+          "font-awesome text-[2.5rem] sm:text-[3.5rem] md:text-[4.5rem] lg:text-[6.5rem] leading-[0.9] mb-6 sm:mb-8",
+          accent === "olive" ? "text-olive" : "text-teal",
+        ]}
       >
         Still have<br />questions?
       </h2>

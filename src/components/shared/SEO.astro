@@ -1,10 +1,16 @@
 ---
+import { site } from "../../data/site";
+
 export interface Props {
   title?: string;
   description?: string;
   image?: string;
   canonicalURL?: string | URL;
   type?: "website" | "article";
+  /** Keep the page out of search results (e.g. the 404 page). */
+  noindex?: boolean;
+  /** Extra JSON-LD objects for this page (breadcrumbs, etc.). */
+  schema?: Record<string, unknown>[];
 }
 
 const {
@@ -13,35 +19,96 @@ const {
   image = "/og-image.png",
   canonicalURL = new URL(Astro.url.pathname, Astro.site),
   type = "website",
+  noindex = false,
+  schema = [],
 } = Astro.props;
+
+const imageURL = new URL(image, Astro.site);
+
+// Site-wide structured data: who the business is, so search engines can show
+// the brand name, contact details and service area.
+const business = {
+  "@context": "https://schema.org",
+  "@type": "HomeAndConstructionBusiness",
+  "@id": `${site.url}/#business`,
+  name: site.name,
+  alternateName: [site.shortName, "Zawa", "Zahra Al Warsan Landscaping"],
+  url: `${site.url}/`,
+  logo: `${site.url}/logo.png`,
+  image: `${site.url}/og-image.png`,
+  description:
+    "Landscape design, plant care, eco-friendly pest control and Ag-Tech solutions in Dubai.",
+  email: site.email,
+  telephone: site.phone.href.replace("tel:", ""),
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: site.locality,
+    addressCountry: site.country,
+  },
+  areaServed: [
+    { "@type": "City", name: "Dubai" },
+    { "@type": "Country", name: "United Arab Emirates" },
+  ],
+  knowsAbout: [
+    "Landscape design",
+    "Hardscape and softscape",
+    "Swimming pool landscaping",
+    "Plant care and maintenance",
+    "Pest control",
+    "Irrigation systems",
+    "Greenhouses and hydroponics",
+  ],
+};
+
+const website = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${site.url}/#website`,
+  name: site.name,
+  alternateName: [site.shortName, "zawa.ae"],
+  url: `${site.url}/`,
+  publisher: { "@id": `${site.url}/#business` },
+};
+
+const jsonLd = [business, website, ...schema];
 ---
 
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <link rel="icon" type="image/png" href="/logo.png" />
-<link rel="icon" href="/logo.png" />
+<link rel="apple-touch-icon" href="/logo.png" />
 <meta name="generator" content={Astro.generator} />
 <link rel="manifest" href="/manifest.json" />
 
-<!-- Canonical URL -->
-<link rel="canonical" href={canonicalURL} />
-
 <!-- Primary Meta Tags -->
 <title>{title}</title>
-<meta name="title" content={title} />
 <meta name="description" content={description} />
+{
+  noindex ? (
+    <meta name="robots" content="noindex, follow" />
+  ) : (
+    <>
+      <meta name="robots" content="index, follow, max-image-preview:large" />
+      <link rel="canonical" href={canonicalURL} />
+    </>
+  )
+}
 
-<!-- Open Graph / Facebook -->
+<!-- Open Graph -->
 <meta property="og:type" content={type} />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:locale" content="en_AE" />
 <meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={new URL(image, Astro.url)} />
+<meta property="og:image" content={imageURL} />
 
-<!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={canonicalURL} />
-<meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image, Astro.url)} />
+<!-- Twitter / X (uses name=, not property=) -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageURL} />
+
+<!-- Structured data -->
+<script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

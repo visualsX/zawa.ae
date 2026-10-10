@@ -1,3 +1,7 @@
+---
+import { site } from "../../../data/site";
+---
+
 <!-- Spacer to allow scroll for parallax footer reveal -->
 <div id="parallax-spacer" class="hidden lg:block w-full relative z-0"></div>
 <!-- Parallax Footer (fixed behind content) -->
@@ -36,42 +40,42 @@
           class="flex flex-col sm:flex-row flex-wrap gap-4 sm:gap-6 md:gap-10"
         >
           <div class="flex items-center gap-2">
-            <span class="text-white/60 text-lg">→</span>
+            <span class="text-white/60 text-lg" aria-hidden="true">→</span>
             <div>
               <span
                 class="block text-xs sm:text-sm text-white/60 font-sora font-medium tracking-wider"
                 >email</span
               >
               <a
-                href="mailto:zahraalwarsan@gmail.com"
+                href={`mailto:${site.email}`}
                 class="font-sora text-xs sm:text-sm text-white hover:text-white/80 transition-colors break-all sm:break-normal"
-                >zahraalwarsan@gmail.com</a
+                >{site.email}</a
               >
             </div>
           </div>
           <div class="flex items-center gap-2">
-            <span class="text-white/60 text-lg">→</span>
+            <span class="text-white/60 text-lg" aria-hidden="true">→</span>
             <div>
               <span
                 class="block text-xs sm:text-sm text-white/60 font-sora font-medium tracking-wider"
                 >call us</span
               >
               <a
-                href="tel:+971 56 778 8559"
+                href={site.phone.href}
                 class="font-sora text-xs sm:text-sm text-white hover:text-white/80 transition-colors"
-                >+971 56 778 8559</a
+                >{site.phone.display}</a
               >
             </div>
           </div>
           <div class="flex items-center gap-2">
-            <span class="text-white/60 text-lg">→</span>
+            <span class="text-white/60 text-lg" aria-hidden="true">→</span>
             <div>
               <span
                 class="block text-xs sm:text-sm text-white/60 font-sora font-medium tracking-wider"
                 >request</span
               >
               <a
-                href="#"
+                href="/contact"
                 class="font-sora text-xs sm:text-sm text-white hover:text-white/80 transition-colors"
                 >Get a free quote</a
               >
@@ -162,20 +166,16 @@
 </footer>
 
 <script>
-  function setSpacerHeight() {
-    const footer = document.getElementById("parallax-footer");
-    const spacer = document.getElementById("parallax-spacer");
-    if (footer && spacer) {
+  // The footer is fixed behind the page on desktop; the spacer reserves its
+  // height so it can be revealed. Observe the footer itself so the spacer stays
+  // in sync with font loading, wrapping and viewport changes.
+  const footer = document.getElementById("parallax-footer");
+  const spacer = document.getElementById("parallax-spacer");
+  if (footer && spacer) {
+    const sync = () => {
       spacer.style.height = `${footer.offsetHeight - 100}px`;
-    }
+    };
+    sync();
+    new ResizeObserver(sync).observe(footer);
   }
-
-  // Set initial height
-  setSpacerHeight();
-
-  // Update height on resize
-  window.addEventListener("resize", setSpacerHeight);
-
-  // Re-calc after fonts/images load
-  window.addEventListener("load", setSpacerHeight);
 </script>

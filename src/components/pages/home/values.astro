@@ -1,85 +1,78 @@
-<section class="w-full bg-olive py-16 sm:py-24 md:py-32 relative z-20">
-  <div class="container-custom">
-    <!-- Title -->
-    <h2
-      class="font-awesome text-3xl sm:text-4xl md:text-5xl lg:text-[4rem] text-cream mb-10 sm:mb-16 md:mb-24"
-    >
-      Our Values
-    </h2>
+---
+const values = [
+  {
+    tag: "Hospitality",
+    title: "For your yard,<br />not to it",
+    body: "We bring a hospitality approach to everything we do. That not only includes our customers but the yards we service as well. There is dignity in caring for something that is so important to the health and happiness of our customers.",
+  },
+  {
+    tag: "Safety",
+    title: "Do no harm<br />(to the good guys)",
+    body: "Everything we do is considerate of the impact it has on the health and wellbeing of the whole household and the broader community. We don't do anything that would harm a productive or valued part of your home, whether that be flora, fauna or family.",
+  },
+  {
+    tag: "People",
+    title: "Care for people who<br />care for yards",
+    body: "Our people treat our customers with warmth, commitment and care, ensuring their yards are safe, healthy spaces they can enjoy. In order for them to do that, we must treat our people with the same warmth, commitment and care.",
+  },
+];
+---
 
-    <!-- Values List -->
-    <div class="flex flex-col">
-      <!-- Value 1 -->
-      <div
-        class="border-t border-cream/20 py-8 sm:py-12 md:py-16 grid grid-cols-1 md:grid-cols-[1fr_2fr_3fr] lg:grid-cols-[1fr_2.5fr_4fr] gap-4 sm:gap-6 md:gap-12 items-start"
-      >
-        <div
-          class="opacity-20 font-almendra text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-cream leading-none md:mt-2"
+<section class="w-full bg-olive py-20 sm:py-28 md:py-32 relative z-20">
+  <div
+    class="container-custom grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16"
+  >
+    <!-- Intro -->
+    <div class="lg:col-span-5">
+      <div class="lg:sticky lg:top-36">
+        <span
+          class="inline-block font-almendra text-xl sm:text-2xl text-mist mb-5"
         >
-          #1
-        </div>
-        <h3
-          class="font-almendra text-2xl sm:text-3xl md:text-4xl text-cream leading-snug"
+          What we stand for
+        </span>
+        <h2
+          class="font-awesome text-[2.75rem] sm:text-6xl md:text-7xl lg:text-[5.25rem] text-cream leading-[1.02] mb-6 sm:mb-8"
         >
-          For your yard,<br class="hidden md:block" />not to it
-        </h3>
+          Our Values
+        </h2>
         <p
-          class="font-sora font-light text-sm sm:text-[15px] md:text-base text-cream/90 leading-relaxed"
+          class="font-sora font-light text-cream/80 text-base sm:text-lg leading-relaxed max-w-md"
         >
-          We bring a hospitality approach to everything we do. That not only
-          includes our customers but the yards we service as well. There is
-          dignity in caring for something that is so important to the health and
-          happiness of our customers.
-        </p>
-      </div>
-
-      <!-- Value 2 -->
-      <div
-        class="border-t border-cream/20 py-8 sm:py-12 md:py-16 grid grid-cols-1 md:grid-cols-[1fr_2fr_3fr] lg:grid-cols-[1fr_2.5fr_4fr] gap-4 sm:gap-6 md:gap-12 items-start"
-      >
-        <div
-          class="opacity-20 font-almendra text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-cream leading-none md:mt-2"
-        >
-          #2
-        </div>
-        <h3
-          class="font-almendra text-2xl sm:text-3xl md:text-4xl text-cream leading-snug"
-        >
-          Do no harm<br class="hidden md:block" />(to the good guys)
-        </h3>
-        <p
-          class="font-sora font-light text-sm sm:text-[15px] md:text-base text-cream/90 leading-relaxed"
-        >
-          Everything we do is considerate of the impact it has on the health and
-          wellbeing of the whole household and the broader community. We don't
-          do anything that would harm a productive or valued part of your home,
-          whether that be flora, fauna or family.
-        </p>
-      </div>
-
-      <!-- Value 3 -->
-      <div
-        class="border-t border-cream/20 py-8 sm:py-12 md:py-16 pb-0 grid grid-cols-1 md:grid-cols-[1fr_2fr_3fr] lg:grid-cols-[1fr_2.5fr_4fr] gap-4 sm:gap-6 md:gap-12 items-start"
-      >
-        <div
-          class="opacity-20 font-almendra text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-cream leading-none md:mt-2"
-        >
-          #3
-        </div>
-        <h3
-          class="font-almendra text-2xl sm:text-3xl md:text-4xl text-cream leading-snug"
-        >
-          Care for people who<br class="hidden md:block" />care for yards
-        </h3>
-        <p
-          class="font-sora font-light text-sm sm:text-[15px] md:text-base text-cream/90 leading-relaxed"
-        >
-          Our people treat our customers with warmth, commitment and care,
-          ensuring their yards are safe, healthy spaces they can enjoy. In order
-          for them to do that, we must treat our people with the same warmth,
-          commitment and care.
+          Three principles shape how we treat your garden, your family and our
+          own team, on every visit and every project.
         </p>
       </div>
     </div>
+
+    <!-- Values -->
+    <ol class="lg:col-span-7 flex flex-col gap-4 sm:gap-5">
+      {
+        values.map((value, i) => (
+          <li class="value-card group relative overflow-hidden rounded-4xl bg-cream/[0.07] border border-cream/15 p-7 sm:p-10 transition-colors duration-500 hover:bg-cream/[0.12] hover:border-cream/25">
+            <span
+              class="pointer-events-none select-none absolute -right-2 -top-6 sm:-top-8 font-almendra font-bold text-[8rem] sm:text-[11rem] leading-none text-cream/[0.07] transition-colors duration-500 group-hover:text-mist/20"
+              aria-hidden="true"
+            >
+              0{i + 1}
+            </span>
+            <div class="relative">
+              <span class="inline-flex items-center gap-2 font-sora text-xs sm:text-sm font-semibold text-forest bg-mist rounded-full px-3 py-1.5 mb-6 sm:mb-8">
+                <span class="font-almendra text-sm leading-none">
+                  0{i + 1}
+                </span>
+                {value.tag}
+              </span>
+              <h3
+                class="font-almendra text-3xl sm:text-4xl text-cream leading-[1.15] mb-4 sm:mb-5"
+                set:html={value.title}
+              />
+              <p class="font-sora font-light text-[15px] sm:text-base text-cream/80 leading-relaxed max-w-xl">
+                {value.body}
+              </p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
   </div>
 </section>

@@ -1,0 +1,109 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const services = [
+  { label: "Landscape design", href: "/services/landscape-design" },
+  { label: "Smart Ag-Tech", href: "/services/ag-tech-solutions" },
+  { label: "Plant care & pest control", href: "/services/plant-care" },
+];
+---
+
+<Layout
+  title="Page not found | Zahra Al Warsan"
+  description="The page you're looking for doesn't exist. Explore our landscape design, plant care and Ag-Tech services in Dubai."
+  noindex
+>
+  <section
+    class="relative z-20 w-full min-h-svh bg-forest flex items-center overflow-hidden pt-36 pb-20 sm:pt-44 sm:pb-28"
+  >
+    <span
+      class="pointer-events-none select-none absolute inset-x-0 top-1/2 -translate-y-1/2 text-center font-almendra font-bold leading-none text-cream/4 text-[16rem] sm:text-[24rem] lg:text-[32rem]"
+      aria-hidden="true"
+    >
+      404
+    </span>
+    <img
+      src="/icons/flowersl.svg"
+      alt=""
+      aria-hidden="true"
+      class="absolute pointer-events-none right-[6%] top-32 w-24 sm:w-32 opacity-25 animate-float-slow hidden sm:block"
+    />
+
+    <div class="container-custom relative z-10 w-full">
+      <div class="max-w-2xl">
+        <p class="font-almendra text-xl sm:text-2xl text-teal mb-4">
+          Page not found
+        </p>
+        <h1
+          class="font-awesome text-[2.75rem] sm:text-6xl md:text-7xl text-cream leading-[1.02] mb-6"
+        >
+          This path hasn't been planted yet.
+        </h1>
+        <p
+          class="font-sora font-light text-cream/75 text-base sm:text-lg leading-relaxed mb-10 max-w-xl"
+        >
+          The page you're looking for may have moved or never existed. Let's
+          get you back to greener ground.
+        </p>
+
+        <div class="flex flex-wrap gap-3 mb-14">
+          <a
+            href="/"
+            class="group/cta inline-flex items-center gap-3 bg-cream text-forest font-sora text-sm font-semibold pl-6 pr-2 py-2 rounded-full hover:bg-teal hover:text-white transition-colors"
+          >
+            Back to home
+            <span
+              class="w-8 h-8 rounded-full bg-forest/10 flex items-center justify-center transition-transform group-hover/cta:translate-x-0.5"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14"></path>
+                <path d="m12 5 7 7-7 7"></path>
+              </svg>
+            </span>
+          </a>
+          <a
+            href="/portfolio"
+            class="inline-flex items-center border border-cream/30 text-cream font-sora text-sm font-semibold px-6 py-3 rounded-full hover:bg-cream/10 transition-colors"
+          >
+            See our work
+          </a>
+          <a
+            href="/contact"
+            class="inline-flex items-center border border-cream/30 text-cream font-sora text-sm font-semibold px-6 py-3 rounded-full hover:bg-cream/10 transition-colors"
+          >
+            Contact us
+          </a>
+        </div>
+
+        <p class="font-sora text-sm text-cream/50 mb-4">
+          Or explore a service
+        </p>
+        <ul class="flex flex-wrap gap-2">
+          {
+            services.map((s) => (
+              <li>
+                <a
+                  href={s.href}
+                  class="inline-flex items-center gap-2 font-sora text-sm text-cream/85 bg-cream/7 border border-cream/15 rounded-full px-4 py-2 hover:bg-cream/15 hover:text-cream transition-colors"
+                >
+                  {s.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+</Layout>

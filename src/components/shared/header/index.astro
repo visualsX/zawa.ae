@@ -1,7 +1,10 @@
 ---
+import { site } from "../../../data/site";
+
 interface ServiceMenuItem {
   title: string;
   description: string;
+  short: string;
   href: string;
   icon: string;
 }
@@ -9,6 +12,7 @@ interface ServiceMenuItem {
 const serviceMenuItems: ServiceMenuItem[] = [
   {
     title: "Landscape Design",
+    short: "Design, build and seasonal care",
     description:
       "From seasonal planting to full landscape transformations, we design and maintain outdoor spaces that thrive year-round.",
     href: "/services/landscape-design",
@@ -16,6 +20,7 @@ const serviceMenuItems: ServiceMenuItem[] = [
   },
   {
     title: "Smart AgTech Solutions",
+    short: "Greenhouses and hydroponics",
     description:
       "Modern farm management powered by data-driven irrigation, soil health monitoring, and eco-conscious growing practices.",
     href: "/services/ag-tech-solutions",
@@ -23,6 +28,7 @@ const serviceMenuItems: ServiceMenuItem[] = [
   },
   {
     title: "Eco-Friendly Pest Control",
+    short: "Safe for family and pollinators",
     description:
       "Effective pest and mosquito treatments that protect your family and pollinators alike, without harsh chemicals.",
     href: "/services/plant-care",
@@ -59,22 +65,23 @@ const serviceMenuItems: ServiceMenuItem[] = [
       <span
         class="font-sora font-bold text-forest text-[0.85rem] sm:text-[1.1rem] leading-2 sm:leading-[1.9]"
       >
-        <p class="font-extrabold text-lg sm:text-2xl leading-4 sm:leading-6">
+        <span class="block font-extrabold text-lg sm:text-2xl leading-4 sm:leading-6">
           Zahra
-        </p>
-        <p class="text-[10px] sm:text-sm">Al Warsan</p>
+        </span>
+        <span class="block text-[10px] sm:text-sm">Al Warsan</span>
       </span>
     </a>
 
     <!-- Nav (desktop) -->
-    <nav class="relative hidden lg:flex items-center gap-8">
+    <nav class="hidden lg:flex items-center gap-8">
       <!-- Services with dropdown -->
-      <div class="relative" data-dropdown-group>
+      <div data-dropdown-group>
         <button
           type="button"
-          class="text-[15px] text-forest font-sora font-medium flex items-center gap-1 hover:opacity-80 transition-opacity cursor-pointer"
+          class="relative text-[15px] text-forest font-sora font-medium flex items-center gap-1 hover:opacity-80 transition-opacity cursor-pointer"
           data-dropdown-trigger
           aria-expanded="false"
+          aria-controls="services-menu"
         >
           Services
           <svg
@@ -92,31 +99,89 @@ const serviceMenuItems: ServiceMenuItem[] = [
         </button>
 
         <div
+          id="services-menu"
           data-dropdown-panel
-          class="absolute left-1/2 -translate-x-1/2 top-full mt-10 w-[1000px] max-w-[92vw] bg-cream/95 backdrop-blur-xl backdrop-saturate-150 border border-white/40 rounded-4xl shadow-[0_24px_48px_rgba(0,0,0,0.1)] overflow-hidden z-50"
+          class="absolute left-0 right-0 top-full mt-3 z-50"
         >
-          <div class="grid grid-cols-3 gap-2 p-3">
-            {
-              serviceMenuItems.map((item) => (
+          <div
+            class="dropdown-surface grid grid-cols-[1fr_17rem] gap-2 p-2 rounded-4xl bg-[#f1e6cf] border border-white/60 shadow-[0_30px_60px_-20px_rgba(15,51,43,0.35)]"
+          >
+            <div class="relative p-1" data-dropdown-list>
+              <span
+                class="dropdown-highlight absolute left-0 top-0 rounded-3xl bg-white/70 pointer-events-none"
+                data-dropdown-highlight
+                aria-hidden="true"
+              ></span>
+            <ul class="relative grid grid-cols-3">
+              {
+                serviceMenuItems.map((item, i) => (
+                  <li class="dropdown-item" style={`--i: ${i}`}>
+                    <a
+                      href={item.href}
+                      class="group flex h-full flex-col gap-5 rounded-3xl p-6 focus-visible:outline-none"
+                    >
+                      <div
+                        class="w-12 h-12 rounded-2xl bg-forest/6 flex items-center justify-center text-forest transition-all duration-300 group-hover:bg-teal group-hover:text-white group-hover:-rotate-6 group-focus-visible:bg-teal group-focus-visible:text-white shrink-0"
+                        set:html={item.icon}
+                      />
+                      <div class="flex flex-col gap-2">
+                        <span class="flex items-center gap-2 font-sora font-semibold text-base text-forest">
+                          {item.title}
+                          <svg
+                            class="w-4 h-4 text-teal opacity-0 -translate-x-1 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 group-focus-visible:opacity-100 group-focus-visible:translate-x-0"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            aria-hidden="true"
+                          >
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" />
+                          </svg>
+                        </span>
+                        <span class="font-sora text-[13px] leading-relaxed text-forest/65">
+                          {item.description}
+                        </span>
+                      </div>
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+            </div>
+
+            <div
+              class="dropdown-item flex flex-col justify-between rounded-3xl bg-forest p-6 text-cream"
+              style="--i: 3"
+            >
+              <div>
+                <p class="font-almendra text-lg text-mist mb-2">
+                  Not sure where to start?
+                </p>
+                <p class="font-sora text-[13px] leading-relaxed text-cream/70">
+                  Tell us about your space and we'll suggest the right mix of
+                  services on a free site visit.
+                </p>
+              </div>
+              <div class="flex flex-col gap-2 mt-6">
                 <a
-                  href={item.href}
-                  class="group flex flex-col items-start gap-4 rounded-3xl p-6 hover:bg-teal transition-all duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)]"
+                  href="/contact"
+                  class="inline-flex items-center justify-between gap-2 bg-teal text-white font-sora text-sm font-medium pl-4 pr-1.5 py-1.5 rounded-full hover:bg-cream hover:text-forest transition-colors"
                 >
-                  <div
-                    class="w-12 h-12 rounded-2xl bg-forest/5 flex items-center justify-center text-forest group-hover:bg-white/10 group-hover:text-white transition-colors duration-300 shrink-0 shadow-sm"
-                    set:html={item.icon}
-                  />
-                  <div class="flex flex-col gap-2 mt-1">
-                    <span class="font-sora font-semibold text-base text-forest group-hover:text-white/60 transition-colors duration-300">
-                      {item.title}
-                    </span>
-                    <span class="font-sora text-[13px] leading-relaxed text-forest/60 group-hover:text-white/60 transition-colors duration-300">
-                      {item.description}
-                    </span>
-                  </div>
+                  Book a free visit
+                  <span class="w-7 h-7 rounded-full bg-white/15 flex items-center justify-center">
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.25" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                  </span>
                 </a>
-              ))
-            }
+                <a
+                  href="/portfolio"
+                  class="inline-flex items-center justify-center font-sora text-sm text-cream/80 py-2 rounded-full border border-cream/20 hover:bg-cream/10 hover:text-cream transition-colors"
+                >
+                  See our work
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -151,36 +216,16 @@ const serviceMenuItems: ServiceMenuItem[] = [
       <button
         id="mobile-menu-toggle"
         type="button"
-        class="lg:hidden flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full hover:bg-forest/10 transition-colors cursor-pointer"
-        aria-label="Toggle menu"
+        class="lg:hidden relative flex items-center justify-center w-10 h-10 rounded-full hover:bg-forest/10 transition-colors cursor-pointer"
+        aria-label="Open menu"
         aria-expanded="false"
+        aria-controls="mobile-menu"
       >
-        <svg
-          id="hamburger-icon"
-          class="w-5 h-5 sm:w-6 sm:h-6 text-forest transition-opacity"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
-        <svg
-          id="close-icon"
-          class="w-5 h-5 sm:w-6 sm:h-6 text-forest hidden transition-opacity"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
+        <span class="burger" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
       </button>
     </div>
   </div>
@@ -188,74 +233,108 @@ const serviceMenuItems: ServiceMenuItem[] = [
   <!-- Mobile menu panel -->
   <div
     id="mobile-menu"
-    class="lg:hidden absolute top-full left-4 right-4 sm:left-6 sm:right-6 mt-3 bg-cream/70 backdrop-blur-xl backdrop-saturate-150 border border-white/40 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.1)] overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] grid opacity-0 pointer-events-none"
-    style="grid-template-rows: 0fr;"
+    class="lg:hidden absolute top-full left-4 right-4 sm:left-6 sm:right-6 mt-3"
+    data-mobile-menu
   >
-    <div class="min-h-0">
-      <nav class="flex flex-col p-6 gap-2">
-        <!-- Services Accordion -->
-        <div class="flex flex-col" id="mobile-services-group">
-          <button
-            type="button"
-            class="flex items-center justify-between text-base text-forest font-sora font-medium py-3 hover:text-teal transition-colors text-left w-full"
-            id="mobile-services-toggle"
-            aria-expanded="false"
-          >
-            <span>Services</span>
-            <svg
-              class="w-4 h-4 transition-transform duration-300"
-              id="mobile-services-chevron"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M19 9l-7 7-7-7"></path>
-            </svg>
-          </button>
-
-          <div
-            id="mobile-services-panel"
-            class="grid transition-all duration-300 ease-in-out"
-            style="grid-template-rows: 0fr;"
-          >
-            <div class="overflow-hidden min-h-0 flex flex-col gap-2">
-              {
-                serviceMenuItems.map((item) => (
-                  <a
-                    href={item.href}
-                    class="group flex items-center gap-4 py-3 rounded-2xl hover:bg-white/50 transition-colors"
-                  >
-                    <div
-                      class="w-10 h-10 rounded-xl bg-forest/5 flex items-center justify-center text-forest group-hover:bg-teal group-hover:text-white transition-colors shrink-0 shadow-sm"
-                      set:html={item.icon}
-                    />
-                    <span class="text-[14px] text-forest/90 font-sora font-medium group-hover:text-teal transition-colors">
+    <div
+      class="mobile-surface max-h-[calc(100svh-7.5rem)] overflow-y-auto overscroll-contain rounded-4xl bg-[#f1e6cf] border border-white/60 shadow-[0_30px_60px_-20px_rgba(15,51,43,0.45)] p-2"
+    >
+      <nav class="flex flex-col" aria-label="Mobile">
+        <!-- Services -->
+        <p class="mobile-item font-almendra text-lg text-teal px-4 pt-4 pb-2" style="--i: 0">
+          Services
+        </p>
+        <ul class="flex flex-col">
+          {
+            serviceMenuItems.map((item, i) => (
+              <li class="mobile-item" style={`--i: ${i + 1}`}>
+                <a
+                  href={item.href}
+                  class="group flex items-center gap-4 rounded-3xl p-3 active:bg-white/70 hover:bg-white/60 transition-colors"
+                >
+                  <span
+                    class="w-12 h-12 rounded-2xl bg-forest/6 flex items-center justify-center text-forest shrink-0 transition-colors group-hover:bg-teal group-hover:text-white group-active:bg-teal group-active:text-white"
+                    set:html={item.icon}
+                  />
+                  <span class="flex flex-col min-w-0">
+                    <span class="font-sora font-semibold text-[15px] text-forest">
                       {item.title}
                     </span>
-                  </a>
-                ))
-              }
-            </div>
-          </div>
+                    <span class="font-sora text-[13px] text-forest/60 truncate">
+                      {item.short}
+                    </span>
+                  </span>
+                  <svg
+                    class="w-4 h-4 ml-auto shrink-0 text-forest/40 transition-transform group-hover:translate-x-0.5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    aria-hidden="true"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                  </svg>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+
+        <!-- Primary links -->
+        <div class="flex flex-col px-2 pt-3 pb-2">
+          {
+            [
+              { label: "Portfolio", href: "/portfolio" },
+              { label: "Contact", href: "/contact" },
+            ].map((link, i) => (
+              <a
+                href={link.href}
+                class="mobile-item group flex items-center justify-between rounded-3xl px-3 py-3 hover:bg-white/60 active:bg-white/70 transition-colors"
+                style={`--i: ${i + 4}`}
+              >
+                <span class="font-awesome text-[2rem] leading-none text-forest">
+                  {link.label}
+                </span>
+                <span class="w-10 h-10 rounded-full border border-forest/15 flex items-center justify-center text-forest transition-all group-hover:bg-forest group-hover:text-cream group-hover:border-forest">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </span>
+              </a>
+            ))
+          }
         </div>
 
-        <a
-          href="/portfolio"
-          class="text-base text-forest font-sora font-medium py-3 hover:text-teal transition-colors block"
+        <!-- Help card -->
+        <div
+          class="mobile-item rounded-3xl bg-forest text-cream p-5 mt-1"
+          style="--i: 6"
         >
-          Portfolio
-        </a>
-
-        <a
-          href="/contact"
-          class="text-base text-forest font-sora font-medium py-3 hover:text-teal transition-colors block"
-        >
-          Contact
-        </a>
+          <p class="font-almendra text-lg text-mist mb-1">
+            Not sure where to start?
+          </p>
+          <p class="font-sora text-[13px] leading-relaxed text-cream/70 mb-4">
+            Book a free site visit and we'll suggest the right services for
+            your space.
+          </p>
+          <div class="grid grid-cols-2 gap-2">
+            <a
+              href="/contact"
+              class="inline-flex items-center justify-center bg-teal text-white font-sora text-sm font-medium px-4 py-3 rounded-full hover:bg-cream hover:text-forest transition-colors"
+            >
+              Free visit
+            </a>
+            <a
+              href={site.phone.href}
+              class="inline-flex items-center justify-center gap-2 border border-cream/25 text-cream font-sora text-sm font-medium px-4 py-3 rounded-full hover:bg-cream/10 transition-colors"
+            >
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+              </svg>
+              Call us
+            </a>
+          </div>
+        </div>
       </nav>
     </div>
   </div>
@@ -264,62 +343,45 @@ const serviceMenuItems: ServiceMenuItem[] = [
     function initMobileMenu() {
       const toggle = document.getElementById("mobile-menu-toggle");
       const menu = document.getElementById("mobile-menu");
-      const hamburgerIcon = document.getElementById("hamburger-icon");
-      const closeIcon = document.getElementById("close-icon");
-
-      const servicesToggle = document.getElementById("mobile-services-toggle");
-      const servicesPanel = document.getElementById("mobile-services-panel");
-      const servicesChevron = document.getElementById(
-        "mobile-services-chevron",
-      );
-
-      if (!toggle || !menu || !hamburgerIcon || !closeIcon) return;
+      if (!toggle || !menu) return;
       if (toggle.dataset.initialized === "true") return;
       toggle.dataset.initialized = "true";
 
-      // Main mobile menu toggle
-      toggle.addEventListener("click", () => {
-        const isOpen = toggle.getAttribute("aria-expanded") === "true";
-        toggle.setAttribute("aria-expanded", String(!isOpen));
+      const isOpen = () => toggle.getAttribute("aria-expanded") === "true";
 
-        if (isOpen) {
-          menu.style.gridTemplateRows = "0fr";
-          menu.style.opacity = "0";
-          menu.classList.add("pointer-events-none");
-          hamburgerIcon.classList.remove("hidden");
-          closeIcon.classList.add("hidden");
+      const setOpen = (open: boolean) => {
+        toggle.setAttribute("aria-expanded", String(open));
+        toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+        menu.classList.toggle("is-open", open);
+        document.documentElement.classList.toggle("menu-locked", open);
+      };
 
-          // Optionally close services sub-menu when main menu closes
-          if (servicesToggle?.getAttribute("aria-expanded") === "true") {
-            servicesToggle.setAttribute("aria-expanded", "false");
-            if (servicesPanel) servicesPanel.style.gridTemplateRows = "0fr";
-            if (servicesChevron) servicesChevron.classList.remove("rotate-180");
-          }
-        } else {
-          menu.style.gridTemplateRows = "1fr";
-          menu.style.opacity = "1";
-          menu.classList.remove("pointer-events-none");
-          hamburgerIcon.classList.add("hidden");
-          closeIcon.classList.remove("hidden");
+      toggle.addEventListener("click", () => setOpen(!isOpen()));
+
+      // Choosing any link closes the menu.
+      menu.querySelectorAll("a").forEach((a) =>
+        a.addEventListener("click", () => setOpen(false)),
+      );
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && isOpen()) {
+          setOpen(false);
+          toggle.focus();
         }
       });
 
-      // Mobile services sub-menu toggle
-      if (servicesToggle && servicesPanel && servicesChevron) {
-        servicesToggle.addEventListener("click", () => {
-          const isOpen =
-            servicesToggle.getAttribute("aria-expanded") === "true";
-          servicesToggle.setAttribute("aria-expanded", String(!isOpen));
+      // Tapping outside the header closes it.
+      document.addEventListener("click", (e) => {
+        const header = document.getElementById("site-header");
+        if (isOpen() && header && !header.contains(e.target as Node)) {
+          setOpen(false);
+        }
+      });
 
-          if (isOpen) {
-            servicesPanel.style.gridTemplateRows = "0fr";
-            servicesChevron.classList.remove("rotate-180");
-          } else {
-            servicesPanel.style.gridTemplateRows = "1fr";
-            servicesChevron.classList.add("rotate-180");
-          }
-        });
-      }
+      // Reset if the viewport grows past the mobile breakpoint.
+      matchMedia("(min-width: 1024px)").addEventListener("change", (e) => {
+        if (e.matches) setOpen(false);
+      });
     }
 
     // function initGlassEffects() {
@@ -390,33 +452,106 @@ const serviceMenuItems: ServiceMenuItem[] = [
         if (!trigger || !panel) return;
 
         let closeTimeout: ReturnType<typeof setTimeout>;
+        let openedAt = 0;
+        let suppressFocusOpen = false;
+        const isOpen = () => trigger!.getAttribute("aria-expanded") === "true";
 
         function open() {
           clearTimeout(closeTimeout);
+          if (isOpen()) return;
+          openedAt = Date.now();
           panel!.classList.add("is-open");
           trigger!.setAttribute("aria-expanded", "true");
           chevron?.classList.add("rotate-180");
         }
 
+        function closeNow() {
+          clearTimeout(closeTimeout);
+          panel!.classList.remove("is-open");
+          trigger!.setAttribute("aria-expanded", "false");
+          chevron?.classList.remove("rotate-180");
+        }
+
+        // Small grace period so moving the pointer from the trigger to the
+        // panel (or brushing past an edge) doesn't snap it shut.
         function close() {
-          closeTimeout = setTimeout(() => {
-            panel!.classList.remove("is-open");
-            trigger!.setAttribute("aria-expanded", "false");
-            chevron?.classList.remove("rotate-180");
-          }, 120);
+          clearTimeout(closeTimeout);
+          closeTimeout = setTimeout(closeNow, 160);
         }
 
         group.addEventListener("mouseenter", open);
         group.addEventListener("mouseleave", close);
 
+        // A click right after hover opened it shouldn't immediately shut it.
         trigger.addEventListener("click", () => {
-          const isOpen = trigger.getAttribute("aria-expanded") === "true";
-          isOpen ? close() : open();
+          if (isOpen() && Date.now() - openedAt > 400) closeNow();
+          else open();
+        });
+
+        // Keyboard: open when tabbing in, close when focus leaves.
+        group.addEventListener("focusin", (e) => {
+          const target = e.target as HTMLElement;
+          if (suppressFocusOpen || !target.matches(":focus-visible")) return;
+          open();
+        });
+        group.addEventListener("focusout", (e) => {
+          if (!group.contains(e.relatedTarget as Node)) close();
+        });
+
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && isOpen()) {
+            closeNow();
+            suppressFocusOpen = true;
+            trigger.focus();
+            suppressFocusOpen = false;
+          }
         });
 
         document.addEventListener("click", (e) => {
-          if (!group.contains(e.target as Node)) close();
+          if (!group.contains(e.target as Node)) closeNow();
         });
+
+        // One highlight that glides between service cards, so moving across
+        // them never blinks off and back on.
+        const list = group.querySelector<HTMLElement>("[data-dropdown-list]");
+        const highlight = group.querySelector<HTMLElement>(
+          "[data-dropdown-highlight]",
+        );
+        if (list && highlight) {
+          let hideTimeout: ReturnType<typeof setTimeout>;
+          const moveTo = (el: HTMLElement) => {
+            clearTimeout(hideTimeout);
+            const visible = highlight.classList.contains("is-visible");
+            // First appearance snaps into place; after that it slides.
+            highlight.classList.toggle("no-slide", !visible);
+            highlight.style.width = `${el.offsetWidth}px`;
+            highlight.style.height = `${el.offsetHeight}px`;
+            highlight.style.transform = `translate(${el.offsetLeft + 4}px, ${el.offsetTop + 4}px)`;
+            void highlight.offsetWidth;
+            highlight.classList.remove("no-slide");
+            highlight.classList.add("is-visible");
+          };
+          const hide = () => {
+            hideTimeout = setTimeout(
+              () => highlight.classList.remove("is-visible"),
+              80,
+            );
+          };
+          list.querySelectorAll<HTMLElement>("li").forEach((li) => {
+            li.addEventListener("mouseenter", () => moveTo(li));
+            li.addEventListener("focusin", () => moveTo(li));
+          });
+          list.addEventListener("mouseleave", hide);
+          list.addEventListener("focusout", (e) => {
+            if (!list.contains(e.relatedTarget as Node)) hide();
+          });
+          trigger.addEventListener("click", () =>
+            highlight.classList.remove("is-visible"),
+          );
+          group.addEventListener("mouseleave", () =>
+            highlight.classList.remove("is-visible"),
+          );
+        }
       });
     }
 
@@ -437,24 +572,186 @@ const serviceMenuItems: ServiceMenuItem[] = [
 </header>
 
 <style>
-  /* 3D Flag Unfold Animation for Desktop Dropdown */
+  /* Desktop services dropdown.
+     Open: the surface unrolls from the top edge while items rise in, one
+     after another. Close: a quick, quiet fade so it never lingers. */
   [data-dropdown-panel] {
-    opacity: 0;
-    transform-origin: top center;
-    transform: perspective(1200px) rotateX(-60deg) translateY(-20px);
+    visibility: hidden;
     pointer-events: none;
-    transition:
-      transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-      opacity 0.3s ease-out;
+    transition: visibility 0s linear 0.22s;
+  }
+  /* Invisible bridge over the gap between the nav pill and the panel. */
+  [data-dropdown-panel]::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    height: 0.75rem;
+  }
+  [data-dropdown-panel].is-open {
+    visibility: visible;
+    pointer-events: auto;
+    transition: visibility 0s;
   }
 
-  [data-dropdown-panel].is-open {
-    opacity: 1;
-    pointer-events: auto;
-    transform: perspective(1200px) rotateX(0deg) translateY(0);
-    /* Add a slight bounce on the unfold */
+  .dropdown-surface {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.985);
+    transform-origin: top center;
+    clip-path: inset(0 0 100% 0 round 2rem);
     transition:
-      transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
-      opacity 0.4s ease-out;
+      opacity 0.18s ease,
+      transform 0.22s ease,
+      clip-path 0.22s ease;
+  }
+  .is-open .dropdown-surface {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(0 0 0 0 round 2rem);
+    transition:
+      opacity 0.25s ease,
+      transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+      clip-path 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .dropdown-item {
+    opacity: 0;
+    transform: translateY(10px);
+    transition:
+      opacity 0.15s ease,
+      transform 0.15s ease;
+  }
+  .is-open .dropdown-item {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 0.4s ease,
+      transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: calc(0.08s + var(--i, 0) * 0.05s);
+  }
+
+  .dropdown-highlight {
+    opacity: 0;
+    transition:
+      opacity 0.2s ease,
+      transform 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+      width 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+      height 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .dropdown-highlight.is-visible {
+    opacity: 1;
+  }
+  .dropdown-highlight.no-slide {
+    transition: opacity 0.2s ease;
+  }
+
+  /* Mobile menu: same unroll + stagger language as the desktop dropdown. */
+  [data-mobile-menu] {
+    visibility: hidden;
+    pointer-events: none;
+    transition: visibility 0s linear 0.22s;
+  }
+  [data-mobile-menu].is-open {
+    visibility: visible;
+    pointer-events: auto;
+    transition: visibility 0s;
+  }
+  .mobile-surface {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.985);
+    transform-origin: top center;
+    clip-path: inset(0 0 100% 0 round 2rem);
+    transition:
+      opacity 0.18s ease,
+      transform 0.22s ease,
+      clip-path 0.22s ease;
+  }
+  .is-open .mobile-surface {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(0 0 0 0 round 2rem);
+    transition:
+      opacity 0.25s ease,
+      transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+      clip-path 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .mobile-item {
+    opacity: 0;
+    transform: translateY(10px);
+    transition:
+      opacity 0.15s ease,
+      transform 0.15s ease;
+  }
+  .is-open .mobile-item {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 0.4s ease,
+      transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: calc(0.08s + var(--i, 0) * 0.04s);
+  }
+
+  /* Hamburger that morphs into a close icon. */
+  .burger {
+    position: relative;
+    width: 20px;
+    height: 14px;
+  }
+  .burger span {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--color-forest);
+    transition:
+      transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.2s ease,
+      top 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .burger span:nth-child(1) {
+    top: 0;
+  }
+  .burger span:nth-child(2) {
+    top: 6px;
+  }
+  .burger span:nth-child(3) {
+    top: 12px;
+  }
+  [aria-expanded="true"] .burger span:nth-child(1) {
+    top: 6px;
+    transform: rotate(45deg);
+  }
+  [aria-expanded="true"] .burger span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0.3);
+  }
+  [aria-expanded="true"] .burger span:nth-child(3) {
+    top: 6px;
+    transform: rotate(-45deg);
+  }
+
+  :global(html.menu-locked) {
+    overflow: hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dropdown-surface,
+    .is-open .dropdown-surface,
+    .dropdown-item,
+    .is-open .dropdown-item,
+    .mobile-surface,
+    .is-open .mobile-surface,
+    .mobile-item,
+    .is-open .mobile-item {
+      transform: none;
+      clip-path: none;
+      transition: opacity 0.15s ease;
+      transition-delay: 0s;
+    }
+    .dropdown-highlight {
+      transition: opacity 0.15s ease;
+    }
   }
 </style>

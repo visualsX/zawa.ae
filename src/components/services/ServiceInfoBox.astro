@@ -16,11 +16,12 @@ const { question, subtext } = Astro.props;
         class="w-12 h-12 md:w-8 md:h-8 absolute top-0 bg-cream md:bg-transparent p-2 md:p-0 rounded-md left-1/2 -translate-x-1/2 -translate-y-1/2 md:translate-x-0 md:translate-y-0 md:top-0 md:left-0 md:relative"
         src="/icons/business.svg"
         alt=""
+        aria-hidden="true"
       />
       <div class="rounded-lg text-center md:text-left">
-        <h1 class="font-sora text-forest font-bold">
+        <p class="font-sora text-forest font-bold">
           {question}
-        </h1>
+        </p>
         <p class="font-normal text-forest/80">{subtext}</p>
       </div>
     </div>

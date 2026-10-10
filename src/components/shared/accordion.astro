@@ -18,8 +18,13 @@ const {
   class: className = "",
 } = Astro.props;
 
-// Unique id so multiple <Accordion /> instances on the same page don't clash
-const accordionId = `accordion-${Math.random().toString(36).slice(2, 9)}`;
+// Stable id derived from the content, so builds are deterministic and two
+// accordions on one page don't clash (Math.random() changed it every build).
+const hash = [...items.map((i) => i.question).join("|")].reduce(
+  (h, c) => (Math.imul(31, h) + c.charCodeAt(0)) | 0,
+  7,
+);
+const accordionId = `accordion-${(hash >>> 0).toString(36)}`;
 ---
 
 <div
@@ -47,6 +52,7 @@ const accordionId = `accordion-${Math.random().toString(36).slice(2, 9)}`;
               index === defaultOpenIndex && "rotate-180",
             ]}
             data-accordion-icon
+            aria-hidden="true"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -66,6 +72,7 @@ const accordionId = `accordion-${Math.random().toString(36).slice(2, 9)}`;
           id={`${accordionId}-panel-${index}`}
           role="region"
           aria-labelledby={`${accordionId}-trigger-${index}`}
+          inert={index !== defaultOpenIndex}
         >
           <div class="overflow-hidden">
             <p class="font-sora text-[15px] text-forest/70 leading-relaxed pb-6 pr-8">
@@ -75,6 +82,7 @@ const accordionId = `accordion-${Math.random().toString(36).slice(2, 9)}`;
         </div>
         <!-- Bottom SVG Border -->
         <svg
+          aria-hidden="true"
           class="w-full h-2 md:h-3 text-teal/40 mt-1 mb-2"
           viewBox="0 0 1204 16"
           fill="none"
@@ -121,9 +129,13 @@ const accordionId = `accordion-${Math.random().toString(36).slice(2, 9)}`;
                 other
                   .querySelector("[data-accordion-trigger]")
                   ?.setAttribute("aria-expanded", "false");
-                other.querySelector<HTMLElement>(
+                const otherPanel = other.querySelector<HTMLElement>(
                   "[data-accordion-panel]",
-                )!.style.gridTemplateRows = "0fr";
+                );
+                if (otherPanel) {
+                  otherPanel.style.gridTemplateRows = "0fr";
+                  otherPanel.inert = true;
+                }
                 other
                   .querySelector("[data-accordion-icon]")
                   ?.classList.remove("rotate-180");
@@ -132,7 +144,11 @@ const accordionId = `accordion-${Math.random().toString(36).slice(2, 9)}`;
           }
 
           trigger.setAttribute("aria-expanded", String(!isOpen));
-          panel!.style.gridTemplateRows = isOpen ? "0fr" : "1fr";
+          if (panel) {
+            panel.style.gridTemplateRows = isOpen ? "0fr" : "1fr";
+            // Collapsed answers shouldn't be reachable by Tab or screen readers.
+            panel.inert = isOpen;
+          }
           icon?.classList.toggle("rotate-180", !isOpen);
         });
       });

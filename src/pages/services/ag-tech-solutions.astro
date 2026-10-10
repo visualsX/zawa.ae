@@ -5,7 +5,6 @@ import ServiceGrid from "../../components/services/ServiceGrid.astro";
 import ServiceInfoBox from "../../components/services/ServiceInfoBox.astro";
 import ServiceDetails from "../../components/services/ServiceDetails.astro";
 import ServiceBenefits from "../../components/services/ServiceBenefits.astro";
-import Accordion from "../../components/shared/accordion.astro";
 import Faqs from "../../components/shared/faqs.astro";
 
 const gridServices = [
@@ -183,7 +182,6 @@ const faqs = [
     description="Empowering the future of farming with innovative agricultural technology tailored for efficiency, sustainability, and high yield."
   >
     <img
-      fetchpriority="high"
       src="/icons/agtech.svg"
       alt=""
       class="absolute z-1 pointer-events-none right-0 top-5 w-96 sm:w-60 md:w-70"
@@ -205,25 +203,4 @@ const faqs = [
   />
 
   <Faqs faqs={faqs} title="Your agricultural technology questions answered" />
-
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-        anchor.addEventListener("click", function (e) {
-          const targetId = this.getAttribute("href");
-          if (targetId === "#contact" || targetId === "#") return;
-
-          const targetElement = document.querySelector(targetId);
-          if (targetElement) {
-            e.preventDefault();
-            targetElement.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            });
-            history.pushState(null, "", targetId);
-          }
-        });
-      });
-    });
-  </script>
 </Layout>
