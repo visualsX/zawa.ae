@@ -6,13 +6,8 @@
   class="lg:fixed bottom-0 left-0 right-0 z-0 bg-[#0f9b8e] text-white lg:pt-[120px]"
 >
   <div
-    class="relative max-w-6xl mx-auto px-4 sm:px-6 pt-10 sm:pt-16 md:pt-24 pb-6"
+    class="relative max-w-6xl mx-auto px-4 sm:px-6 pt-10 sm:pt-16 md:pt-24 lg:pt-10 pb-6"
   >
-    <h1
-      class="hidden xl:block font-sora text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold absolute -top-6 left-4 sm:left-6 opacity-5 pointer-events-none"
-    >
-      Zahra Al Warsan
-    </h1>
     <!-- Top Row: Logo + Info + Nav -->
     <div
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-[auto_1fr_auto] gap-8 sm:gap-12 md:gap-16 items-start"
@@ -105,7 +100,7 @@
         <a
           href="/portfolio"
           class="font-sora text-xs sm:text-sm font-medium text-white/90 hover:text-white transition-colors"
-          >Portolio</a
+          >Portfolio</a
         >
         <a
           href="/contact"
@@ -135,6 +130,34 @@
         >. All rights reserved.
       </p>
     </div>
+  </div>
+
+  <!-- Wordmark: SVG keeps it exactly edge-to-edge at every width -->
+  <div class="relative overflow-hidden pointer-events-none select-none" aria-hidden="true">
+    <svg
+      viewBox="0 0 1000 96"
+      class="block w-full h-auto"
+      preserveAspectRatio="xMidYMax meet"
+    >
+      <defs>
+        <linearGradient id="footer-wordmark-fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.22" />
+          <stop offset="100%" stop-color="#ffffff" stop-opacity="0.02" />
+        </linearGradient>
+      </defs>
+      <text
+        x="500"
+        y="106"
+        text-anchor="middle"
+        textLength="980"
+        lengthAdjust="spacingAndGlyphs"
+        font-family="Sora Variable, ui-sans-serif, system-ui, sans-serif"
+        font-weight="800"
+        font-size="126"
+        letter-spacing="-4"
+        fill="url(#footer-wordmark-fill)"
+      >Zahra Al Warsan</text>
+    </svg>
   </div>
 </footer>
 

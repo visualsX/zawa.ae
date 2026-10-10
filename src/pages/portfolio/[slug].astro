@@ -1,340 +1,856 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { Image } from "astro:assets";
-import { projects } from "../../data/portfolio";
+import Reveal from "../../components/shared/reveal.astro";
+import { Image, getImage } from "astro:assets";
+import { projects, type Project } from "../../data/portfolio";
 
 export function getStaticPaths() {
-  return projects.map((project) => ({
+  return projects.map((project, i) => ({
     params: { slug: project.slug },
-    props: { project },
+    props: { project, next: projects[(i + 1) % projects.length] },
   }));
 }
 
-const { project } = Astro.props;
+interface Props {
+  project: Project;
+  next: Project;
+}
+
+const { project, next } = Astro.props;
+
+const ogImage = await getImage({
+  src: project.image,
+  width: 1200,
+  format: "jpeg",
+});
+
+// Full-size sources for the lightbox, in gallery order.
+const gallery = await Promise.all(
+  project.gallery.map(async (item) => ({
+    ...item,
+    full: (await getImage({ src: item.image, width: 1600, format: "webp" }))
+      .src,
+  })),
+);
+const beforeCount = gallery.filter((g) => g.when === "before").length;
+const afterCount = gallery.length - beforeCount;
+
+// Pick an image to anchor the case study: the first "before" shot tells the
+// story best; fall back to a finished shot that isn't the hero.
+const storyImage =
+  project.gallery.find((g) => g.when === "before") ??
+  project.gallery.find((g) => g.image !== project.image) ??
+  project.gallery[0];
+
+const meta = [
+  { label: "Client", value: project.client },
+  { label: "Location", value: project.location },
+  { label: "Service", value: project.category },
+  { label: "Scope", value: project.scope.join(" · ") },
+];
+
+const story = [
+  { label: "The Challenge", body: project.caseStudy.challenge },
+  { label: "Our Solution", body: project.caseStudy.solution },
+  { label: "The Result", body: project.caseStudy.result },
+];
 ---
 
 <Layout
   title={`${project.title} | Portfolio | Zahra Al Warsan`}
   description={project.description}
-  image={project.image.src}
+  image={ogImage.src}
 >
-  <!-- Hero Section -->
+  <Reveal />
+
+  <!-- Hero -->
   <section
-    class="relative z-20 w-full bg-forest pt-40 pb-24 px-4 sm:px-6 overflow-hidden"
+    class="relative z-20 w-full min-h-[92svh] flex items-end bg-forest overflow-hidden"
   >
-    <div class="container-custom relative z-10">
-      <!-- <a
-        href="/portfolio"
-        class="inline-flex items-center gap-2 font-sora text-sm text-cream/60 hover:text-cream transition-colors mb-8"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+    <Image
+      src={project.image}
+      alt=""
+      widths={[800, 1280, 1600]}
+      sizes="100vw"
+      loading="eager"
+      fetchpriority="high"
+      class="hero-image absolute inset-0 w-full h-full object-cover"
+    />
+    <div
+      class="absolute inset-0 bg-linear-to-t from-forest via-forest/45 to-forest/5"
+    >
+    </div>
+    <div
+      class="absolute inset-0 bg-linear-to-r from-forest/55 via-forest/10 to-transparent"
+    >
+    </div>
+
+    <div
+      class="container-custom relative z-10 w-full pt-40 pb-10 sm:pb-14 px-4 sm:px-6"
+    >
+      <nav aria-label="Breadcrumb" class="mb-6 sm:mb-8">
+        <ol
+          class="flex items-center gap-2 font-sora text-xs sm:text-sm text-cream/60"
         >
-          <path d="m15 18-6-6 6-6"></path>
-        </svg>
-        Back to Portfolio
-      </a> -->
-      <span
-        class="inline-block font-sora text-base font-bold text-teal tracking-wider mb-4"
-      >
-        {project.category}.
-      </span>
+          <li>
+            <a href="/portfolio" class="hover:text-cream transition-colors"
+              >Portfolio</a
+            >
+          </li>
+          <li aria-hidden="true">/</li>
+          <li class="text-teal font-semibold">{project.category}</li>
+        </ol>
+      </nav>
       <h1
-        class="font-awesome text-4xl sm:text-5xl md:text-6xl text-cream font-bold mb-6 leading-tight"
+        class="font-awesome text-[2.75rem] sm:text-6xl md:text-7xl lg:text-[5.5rem] text-cream leading-[1.02] max-w-4xl mb-6"
       >
         {project.title}
       </h1>
-      <p class="text-cream/90 text-lg sm:text-xl max-w-2xl font-sora">
+      <p
+        class="font-sora font-light text-cream/85 text-base sm:text-lg md:text-xl max-w-2xl leading-relaxed mb-10 sm:mb-14"
+      >
         {project.description}
       </p>
 
+      <dl
+        class="grid grid-cols-2 lg:grid-cols-4 gap-px rounded-2xl overflow-hidden bg-cream/15 border border-cream/15 backdrop-blur-md"
+      >
+        {
+          meta.map((item) => (
+            <div class="bg-forest/55 px-4 py-4 sm:px-6 sm:py-5">
+              <dt class="font-sora text-[11px] uppercase tracking-[0.18em] text-cream/50 mb-1.5">
+                {item.label}
+              </dt>
+              <dd class="font-sora text-sm sm:text-[15px] text-cream leading-snug">
+                {item.value}
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <!-- Case study -->
+  <section class="relative z-20 bg-cream py-20 sm:py-28 md:py-32">
+    <div class="container-custom">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+        <!-- Sticky visual -->
+        <div class="lg:col-span-5">
+          <div class="lg:sticky lg:top-32" data-reveal>
+            <span
+              class="inline-flex items-center gap-2 font-sora text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-teal mb-5"
+            >
+              <span class="w-8 h-px bg-teal"></span>
+              Case Study
+            </span>
+            <h2
+              class="font-awesome text-4xl sm:text-5xl text-forest leading-[1.05] mb-8"
+            >
+              From brief to finished space
+            </h2>
+            <figure
+              class="relative rounded-3xl overflow-hidden shadow-elevated aspect-4/5"
+            >
+              <Image
+                src={storyImage.image}
+                alt={storyImage.caption}
+                widths={[480, 800]}
+                sizes="(min-width: 1024px) 440px, 100vw"
+                class="w-full h-full object-cover"
+              />
+              <figcaption
+                class="absolute bottom-4 left-4 right-4 font-sora text-xs text-cream bg-forest/70 backdrop-blur-sm rounded-full px-4 py-2 w-fit"
+              >
+                {storyImage.when === "before" ? "Before · " : ""}{
+                  storyImage.caption
+                }
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <!-- Story -->
+        <div class="lg:col-span-7 lg:pt-24">
+          <ol class="relative">
+            {
+              story.map((step, i) => (
+                <li
+                  class="relative grid grid-cols-[auto_1fr] gap-x-6 sm:gap-x-8 pb-14 sm:pb-20 last:pb-0"
+                  data-reveal
+                >
+                  <div class="flex flex-col items-center">
+                    <span class="w-14 h-14 sm:w-16 sm:h-16 rounded-full border border-forest/20 bg-cream flex items-center justify-center font-almendra font-bold text-xl sm:text-2xl text-olive">
+                      0{i + 1}
+                    </span>
+                    {i < story.length - 1 && (
+                      <span class="w-px flex-1 bg-forest/15 mt-3" aria-hidden="true" />
+                    )}
+                  </div>
+                  <div class="pt-3 sm:pt-4">
+                    <h3 class="font-awesome text-2xl sm:text-3xl text-forest mb-4">
+                      {step.label}
+                    </h3>
+                    <p class="font-sora font-light text-[15px] sm:text-lg text-forest/80 leading-relaxed">
+                      {step.body}
+                    </p>
+                  </div>
+                </li>
+              ))
+            }
+          </ol>
+
+          <!-- Key outcomes -->
+          <div
+            class="mt-16 sm:mt-20 rounded-3xl bg-forest p-7 sm:p-10"
+            data-reveal
+          >
+            <h3
+              class="font-sora text-xs font-semibold uppercase tracking-[0.2em] text-cream/50 mb-6"
+            >
+              Key outcomes
+            </h3>
+            <ul class="flex flex-col divide-y divide-cream/10">
+              {
+                project.outcomes.map((outcome) => (
+                  <li class="flex items-center gap-4 py-4 first:pt-0 last:pb-0">
+                    <span class="w-9 h-9 rounded-full bg-teal/20 text-teal flex items-center justify-center shrink-0">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.25"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M20 6 9 17l-5-5" />
+                      </svg>
+                    </span>
+                    <span class="font-sora text-[15px] sm:text-base text-cream">
+                      {outcome}
+                    </span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Before / after comparison -->
+  {
+    project.comparison && (
+      <section class="relative z-20 bg-forest py-20 sm:py-28 md:py-32 overflow-hidden">
+        <div class="container-custom grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+          <div class="lg:col-span-5" data-reveal>
+            <span class="inline-flex items-center gap-2 font-sora text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-teal mb-5">
+              <span class="w-8 h-px bg-teal" />
+              The Transformation
+            </span>
+            <h2 class="font-awesome text-4xl sm:text-5xl md:text-6xl text-cream leading-[1.05] mb-6">
+              See the difference
+            </h2>
+            <p class="font-sora font-light text-cream/75 text-base sm:text-lg leading-relaxed mb-8 max-w-md">
+              Drag the handle to compare the same corner of the plot before we
+              broke ground and after handover.
+            </p>
+            <p class="inline-flex items-center gap-3 font-sora text-sm text-cream/60">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="text-teal"
+                aria-hidden="true"
+              >
+                <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+              {project.comparison.caption}
+            </p>
+          </div>
+
+          <div class="lg:col-span-7" data-reveal style="--reveal-delay: 120ms">
+            <div
+              class="compare relative aspect-4/5 sm:aspect-4/3 rounded-3xl overflow-hidden shadow-2xl select-none touch-pan-y"
+              style="--pos: 50%"
+              data-compare
+            >
+              <Image
+                src={project.comparison.after}
+                alt={`After: ${project.comparison.caption}`}
+                widths={[600, 1000, 1400]}
+                sizes="(min-width: 1024px) 680px, 100vw"
+                class="absolute inset-0 w-full h-full object-cover"
+                draggable="false"
+              />
+              <div class="compare-before absolute inset-0">
+                <Image
+                  src={project.comparison.before}
+                  alt={`Before: ${project.comparison.caption}`}
+                  widths={[600, 1000, 1400]}
+                  sizes="(min-width: 1024px) 680px, 100vw"
+                  class="absolute inset-0 w-full h-full object-cover"
+                  draggable="false"
+                />
+              </div>
+              <span class="absolute top-4 left-4 font-sora text-xs font-semibold uppercase tracking-wider bg-forest/80 text-cream px-3 py-1.5 rounded-full backdrop-blur-sm pointer-events-none">
+                Before
+              </span>
+              <span class="absolute top-4 right-4 font-sora text-xs font-semibold uppercase tracking-wider bg-teal/90 text-white px-3 py-1.5 rounded-full backdrop-blur-sm pointer-events-none">
+                After
+              </span>
+              <div class="compare-handle absolute inset-y-0 w-0.5 bg-cream pointer-events-none" aria-hidden="true">
+                <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-cream text-forest shadow-xl flex items-center justify-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="m9 18-6-6 6-6" />
+                    <path d="m15 6 6 6-6 6" />
+                  </svg>
+                </span>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value="50"
+                step="0.5"
+                aria-label="Reveal before and after"
+                class="compare-range absolute inset-0 w-full h-full opacity-0 cursor-ew-resize m-0"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- Gallery -->
+  <section class="relative z-20 bg-cream py-20 sm:py-28 md:py-32">
+    <div class="container-custom">
       <div
-        class="flex flex-col sm:flex-row gap-5 sm:gap-10 items-start sm:items-center mt-7 sm:mt-10 opacity-35"
+        class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 sm:mb-14"
+        data-reveal
       >
-        <div class="flex gap-x-2 items-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="32"
-            height="32"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.25"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="text-cream"
-            ><path
-              d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"
-            ></path><circle cx="12" cy="10" r="3"></circle></svg
+        <div>
+          <span
+            class="inline-flex items-center gap-2 font-sora text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-teal mb-5"
           >
-          <div class="">
-            <span class="font-sora text-sm text-cream/90">Client:</span>
-            <p class="font-sora text-sm text-cream/90">{project.client}</p>
-          </div>
-        </div>
-        <div class="flex gap-x-2 items-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="32"
-            height="32"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.25"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="text-cream"
-            ><path d="M19 16v-2a2 2 0 0 0-4 0v2"></path><path
-              d="M9.5 15H7a4 4 0 0 0-4 4v2"></path><circle cx="10" cy="7" r="4"
-            ></circle><rect x="13" y="16" width="8" height="5" rx=".899"
-            ></rect></svg
+            <span class="w-8 h-px bg-teal"></span>
+            Project Gallery
+          </span>
+          <h2
+            class="font-awesome text-4xl sm:text-5xl md:text-6xl text-forest leading-[1.05]"
           >
-          <div class="">
-            <span class="font-sora text-sm text-cream/90">Location:</span>
-            <p class="font-sora text-sm text-cream/90">{project.location}</p>
-          </div>
+            {beforeCount > 0 ? "Before, during & after" : "Inside the project"}
+          </h2>
         </div>
+        {
+          beforeCount > 0 && (
+            <div
+              class="flex flex-wrap gap-2"
+              role="group"
+              aria-label="Filter gallery"
+              data-gallery-filters
+            >
+              <button type="button" class="gallery-chip" data-stage="all" aria-pressed="true">
+                All <span class="opacity-50">{gallery.length}</span>
+              </button>
+              <button type="button" class="gallery-chip" data-stage="before" aria-pressed="false">
+                Before <span class="opacity-50">{beforeCount}</span>
+              </button>
+              <button type="button" class="gallery-chip" data-stage="after" aria-pressed="false">
+                After <span class="opacity-50">{afterCount}</span>
+              </button>
+            </div>
+          )
+        }
       </div>
-      <img
-        fetchpriority="high"
-        src="/icons/phool.svg"
-        alt=""
-        class="absolute z-1 pointer-events-none right-0 top-0 w-96 sm:w-60 md:w-70 hidden md:block opacity-20"
-        aria-hidden="true"
-      />
+
+      <ul class="columns-1 sm:columns-2 lg:columns-3 gap-4 sm:gap-5" data-gallery>
+        {
+          gallery.map((item, i) => (
+            <li
+              class="break-inside-avoid mb-4 sm:mb-5"
+              data-stage={item.when}
+              data-reveal
+              style={`--reveal-delay: ${(i % 3) * 80}ms`}
+            >
+              <button
+                type="button"
+                class="group relative block w-full rounded-2xl overflow-hidden bg-forest/5 cursor-zoom-in focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-teal"
+                data-lightbox-trigger
+                data-index={i}
+                data-full={item.full}
+                data-caption={item.caption}
+                data-when={item.when}
+                aria-label={`Open photo: ${item.caption}`}
+              >
+                <Image
+                  src={item.image}
+                  alt={item.caption}
+                  widths={[400, 640, 900]}
+                  sizes="(min-width: 1024px) 370px, (min-width: 640px) 50vw, 100vw"
+                  class="w-full h-auto transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                />
+                <span class="absolute inset-0 bg-linear-to-t from-forest/75 via-forest/0 to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
+                <span
+                  class:list={[
+                    "absolute top-3 left-3 font-sora text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full backdrop-blur-sm",
+                    item.when === "before"
+                      ? "bg-cream/90 text-forest"
+                      : "bg-teal/90 text-white",
+                  ]}
+                >
+                  {item.when}
+                </span>
+                <span class="absolute bottom-3 left-4 right-4 text-left font-sora text-sm text-cream translate-y-1 group-hover:translate-y-0 transition-transform">
+                  {item.caption}
+                </span>
+              </button>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </section>
 
-  <!-- Hero Image -->
-  <!-- <section class="relative z-20 bg-cream md:px-6">
+  <!-- Next project -->
+  <section class="relative z-20 bg-cream pb-20 sm:pb-28">
     <div class="container-custom">
-      <img
-        src={project.image}
-        alt={project.title}
-        class="w-full aspect-video object-cover md:rounded-b-2xl shadow-elevated"
-      />
-    </div>
-  </section> -->
-
-  <!-- Case Study Section -->
-  <section class="relative z-20 bg-cream py-16 sm:py-24 md:px-6">
-    <div class="container-custom">
-      <h2
-        class="font-awesome text-3xl sm:text-4xl md:text-5xl text-forest font-bold mb-16 text-center"
+      <a
+        href={`/portfolio/${next.slug}`}
+        class="group relative block rounded-4xl overflow-hidden min-h-80 sm:min-h-105"
+        data-reveal
       >
-        Case Study
-      </h2>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
-        <!-- Challenge -->
-        <div class="bg-white/30 rounded-2xl p-6 sm:p-8 shadow-card">
-          <div
-            class="w-12 h-12 rounded-xl bg-olive/50 flex items-center justify-center mb-5"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="text-cream"
-            >
-              <path
-                d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"
-              ></path>
-              <path d="M12 9v4"></path>
-              <path d="M12 17h.01"></path>
-            </svg>
-          </div>
-          <h3 class="font-awesome text-xl text-forest font-bold mb-3">
-            The Challenge
-          </h3>
-          <p class="font-sora text-sm text-forest/70 leading-relaxed">
-            {project.caseStudy.challenge}
-          </p>
-        </div>
-
-        <!-- Solution -->
-        <div class="bg-white/30 rounded-2xl p-6 sm:p-8 shadow-card">
-          <div
-            class="w-12 h-12 rounded-xl bg-olive/50 flex items-center justify-center mb-5"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="text-cream"
-            >
-              <path
-                d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"
-              ></path>
-            </svg>
-          </div>
-          <h3 class="font-awesome text-xl text-forest font-bold mb-3">
-            Our Solution
-          </h3>
-          <p class="font-sora text-sm text-forest/70 leading-relaxed">
-            {project.caseStudy.solution}
-          </p>
-        </div>
-
-        <!-- Result -->
-        <div class="bg-white/30 rounded-2xl p-6 sm:p-8 shadow-card">
-          <div
-            class="w-12 h-12 rounded-xl bg-olive/50 flex items-center justify-center mb-5"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="text-cream"
-            >
-              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-              <path d="m9 11 3 3L22 4"></path>
-            </svg>
-          </div>
-          <h3 class="font-awesome text-xl text-forest font-bold mb-3">
-            The Result
-          </h3>
-          <p class="font-sora text-sm text-forest/70 leading-relaxed">
-            {project.caseStudy.result}
-          </p>
-        </div>
-      </div>
-
-      <!-- Key Outcomes -->
-      <div class="bg-forest rounded-2xl p-8 sm:p-12 mb-20">
-        <h3
-          class="font-awesome text-2xl sm:text-3xl text-cream font-bold mb-8 text-center"
+        <Image
+          src={next.image}
+          alt=""
+          widths={[640, 1200]}
+          sizes="(min-width: 1152px) 1152px, 100vw"
+          class="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-105"
+        />
+        <div
+          class="absolute inset-0 bg-linear-to-r from-forest/95 via-forest/70 to-forest/20"
         >
-          Key Outcomes
-        </h3>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          {
-            project.outcomes.map((outcome: string, i: number) => (
-              <div class="text-center bg-white/10 rounded-2xl p-6">
-                <div class="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span class="font-almendra text-4xl text-olive font-bold">
-                    #0{i + 1}
-                  </span>
-                </div>
-                <p class="font-sora text-sm text-cream/50 leading-relaxed">
-                  {outcome}
-                </p>
-              </div>
-            ))
-          }
         </div>
-      </div>
-
-      <!-- Project Gallery -->
-      {
-        project.gallery &&
-          project.gallery.filter((g: any) => g.when === "before").length >
-            0 && (
-            <div class="mb-20">
-              <h3 class="font-awesome text-2xl sm:text-3xl md:text-4xl text-forest font-bold mb-10 text-center">
-                The Canvas: Before the Transformation
-              </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {project.gallery
-                  .filter((g: any) => g.when === "before")
-                  .map((item: any) => (
-                    <div class="relative group overflow-hidden rounded-2xl shadow-card">
-                      <span class="absolute top-4 left-4 z-10 bg-forest/80 text-cream font-sora text-xs font-semibold px-4 py-1.5 rounded-full backdrop-blur-sm">
-                        {item.caption}
-                      </span>
-                      <Image
-                        src={item.image}
-                        alt={item.caption}
-                        class="w-full aspect-4/3 object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                    </div>
-                  ))}
-              </div>
-            </div>
-          )
-      }
-
-      {
-        project.gallery &&
-          project.gallery.filter((g: any) => g.when === "after").length > 0 && (
+        <div
+          class="relative h-full min-h-80 sm:min-h-105 flex flex-col justify-between p-7 sm:p-12 md:p-14"
+        >
+          <span
+            class="font-sora text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-cream/60"
+          >
+            Next project
+          </span>
+          <div class="flex items-end justify-between gap-6">
             <div>
-              <h3 class="font-awesome text-2xl sm:text-3xl md:text-4xl text-forest font-bold mb-10 text-center">
-                The Masterpiece: After Our Work
-              </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {project.gallery
-                  .filter((g: any) => g.when === "after")
-                  .map((item: any) => (
-                    <div class="relative group overflow-hidden rounded-2xl shadow-card">
-                      <span class="absolute top-4 left-4 z-10 bg-teal/80 text-white font-sora text-xs font-semibold px-4 py-1.5 rounded-full backdrop-blur-sm">
-                        {item.caption}
-                      </span>
-                      <Image
-                        src={item.image}
-                        alt={item.caption}
-                        class="w-full aspect-4/3 object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                    </div>
-                  ))}
-              </div>
+              <span class="font-sora text-sm text-teal font-semibold"
+                >{next.category}</span
+              >
+              <h2
+                class="font-awesome text-3xl sm:text-5xl md:text-6xl text-cream leading-[1.05] mt-2 max-w-2xl"
+              >
+                {next.title}
+              </h2>
+              <p class="font-sora text-sm text-cream/60 mt-3">
+                {next.location}
+              </p>
             </div>
-          )
-      }
+            <span
+              class="hidden sm:flex w-16 h-16 md:w-20 md:h-20 rounded-full bg-cream text-forest items-center justify-center shrink-0 transition-all duration-500 group-hover:bg-teal group-hover:text-white group-hover:-rotate-45"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="26"
+                height="26"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </span>
+          </div>
+        </div>
+      </a>
     </div>
   </section>
 
-  <!-- CTA Section -->
-  <section class="relative z-20 bg-forest py-20 sm:py-28 px-4 sm:px-6">
-    <div class="container-custom text-center flex flex-col items-center">
+  <!-- CTA -->
+  <section class="relative z-20 bg-forest py-20 sm:py-28 px-4 sm:px-6 overflow-hidden">
+    <img
+      src="/icons/phool.svg"
+      alt=""
+      aria-hidden="true"
+      class="absolute pointer-events-none -left-16 -bottom-16 w-72 sm:w-96 opacity-10"
+    />
+    <div class="container-custom relative text-center flex flex-col items-center">
       <h2
-        class="font-awesome text-3xl sm:text-4xl md:text-5xl text-cream font-bold mb-6 max-w-2xl leading-tight"
+        class="font-awesome text-4xl sm:text-5xl md:text-6xl text-cream mb-6 max-w-3xl leading-[1.05]"
       >
         Want similar results for your property?
       </h2>
-      <p class="font-sora text-cream/80 text-lg mb-10 max-w-xl">
+      <p class="font-sora font-light text-cream/80 text-base sm:text-lg mb-10 max-w-xl">
         Let's discuss your project. We provide free consultations and customized
         solutions for every space.
       </p>
-      <div class="flex flex-wrap gap-4 justify-center">
+      <div class="flex flex-wrap gap-3 sm:gap-4 justify-center">
         <a
           href="/contact"
-          class="inline-block bg-teal text-white font-sora font-semibold px-10 py-4 rounded-full hover:bg-opacity-90 transition-all duration-300 transform hover:-translate-y-1 shadow-lg text-lg"
+          class="inline-flex items-center gap-2 bg-teal text-white font-sora font-semibold px-8 sm:px-10 py-4 rounded-full hover:bg-[#0c8478] transition-colors shadow-lg"
         >
-          Give us a call
+          Book a free consultation
         </a>
         <a
           href="/portfolio"
-          class="inline-block border border-cream/30 text-cream font-sora font-semibold px-10 py-4 rounded-full hover:bg-cream/10 transition-all duration-300 text-lg"
+          class="inline-flex items-center gap-2 border border-cream/30 text-cream font-sora font-semibold px-8 sm:px-10 py-4 rounded-full hover:bg-cream/10 transition-colors"
         >
-          View more projects
+          All projects
         </a>
       </div>
     </div>
   </section>
+
+  <!-- Lightbox -->
+  <dialog
+    class="lightbox"
+    aria-label="Photo viewer"
+    data-lightbox
+  >
+    <div class="relative w-full h-full flex flex-col">
+      <div
+        class="flex items-center justify-between gap-4 px-4 sm:px-8 py-4 text-cream font-sora text-sm"
+      >
+        <span data-lightbox-counter class="tabular-nums text-cream/60"></span>
+        <button
+          type="button"
+          class="w-11 h-11 rounded-full bg-cream/10 hover:bg-cream/20 flex items-center justify-center transition-colors cursor-pointer"
+          data-lightbox-close
+          aria-label="Close"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="relative flex-1 min-h-0 flex items-center justify-center px-4 sm:px-24" data-lightbox-stage-area>
+        <img
+          data-lightbox-image
+          alt=""
+          class="max-w-full max-h-full object-contain rounded-xl shadow-2xl"
+        />
+        <button
+          type="button"
+          class="lightbox-nav left-3 sm:left-8"
+          data-lightbox-prev
+          aria-label="Previous photo"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="m15 18-6-6 6-6" />
+          </svg>
+        </button>
+        <button
+          type="button"
+          class="lightbox-nav right-3 sm:right-8"
+          data-lightbox-next
+          aria-label="Next photo"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="m9 18 6-6-6-6" />
+          </svg>
+        </button>
+      </div>
+
+      <p
+        class="flex items-center justify-center gap-3 px-4 py-5 sm:py-6 font-sora text-sm sm:text-base text-cream text-center"
+      >
+        <span
+          data-lightbox-stage
+          class="font-semibold text-[11px] uppercase tracking-wider px-2.5 py-1 rounded-full"
+        ></span>
+        <span data-lightbox-caption></span>
+      </p>
+    </div>
+  </dialog>
 </Layout>
+
+<style>
+  :global(.hero-image) {
+    animation: hero-zoom 2.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @keyframes hero-zoom {
+    from {
+      transform: scale(1.08);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
+  .compare-before {
+    clip-path: inset(0 calc(100% - var(--pos)) 0 0);
+  }
+  .compare-handle {
+    left: var(--pos);
+    transform: translateX(-50%);
+  }
+  .compare-range:focus-visible ~ .compare-handle span,
+  .compare:has(.compare-range:focus-visible) .compare-handle span {
+    outline: 3px solid var(--color-teal);
+    outline-offset: 3px;
+  }
+
+  .gallery-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 1.1rem;
+    border-radius: 9999px;
+    border: 1px solid rgb(15 51 43 / 0.15);
+    font-family: var(--font-sora);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-forest);
+    cursor: pointer;
+    transition:
+      background-color 0.25s,
+      color 0.25s,
+      border-color 0.25s;
+  }
+  .gallery-chip:hover {
+    border-color: rgb(15 51 43 / 0.4);
+  }
+  .gallery-chip[aria-pressed="true"] {
+    background: var(--color-forest);
+    border-color: var(--color-forest);
+    color: var(--color-cream);
+  }
+
+  .lightbox {
+    width: 100vw;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: rgb(10 36 30 / 0.96);
+  }
+  .lightbox::backdrop {
+    background: rgb(10 36 30 / 0.6);
+    backdrop-filter: blur(6px);
+  }
+  .lightbox[open] {
+    animation: lightbox-in 0.3s ease-out;
+  }
+  @keyframes lightbox-in {
+    from {
+      opacity: 0;
+    }
+  }
+  .lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3rem;
+    height: 3rem;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-cream);
+    background: rgb(243 231 207 / 0.12);
+    backdrop-filter: blur(8px);
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  .lightbox-nav:hover {
+    background: rgb(243 231 207 / 0.25);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.hero-image),
+    .lightbox[open] {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  // Before/after slider
+  document.querySelectorAll<HTMLElement>("[data-compare]").forEach((el) => {
+    const range = el.querySelector<HTMLInputElement>("input[type=range]");
+    range?.addEventListener("input", () => {
+      el.style.setProperty("--pos", `${range.value}%`);
+    });
+  });
+
+  // Gallery filter
+  const filterGroup = document.querySelector("[data-gallery-filters]");
+  const filterButtons =
+    filterGroup?.querySelectorAll<HTMLButtonElement>("[data-stage]");
+  const tiles = document.querySelectorAll<HTMLElement>(
+    "[data-gallery] > [data-stage]",
+  );
+  filterButtons?.forEach((button) => {
+    button.addEventListener("click", () => {
+      const stage = button.dataset.stage;
+      filterButtons.forEach((b) =>
+        b.setAttribute("aria-pressed", String(b === button)),
+      );
+      tiles.forEach((tile) => {
+        tile.hidden = stage !== "all" && tile.dataset.stage !== stage;
+      });
+    });
+  });
+
+  // Lightbox: navigates only the photos currently visible in the gallery
+  const dialog = document.querySelector<HTMLDialogElement>("[data-lightbox]");
+  if (dialog) {
+    const img = dialog.querySelector<HTMLImageElement>(
+      "[data-lightbox-image]",
+    )!;
+    const caption = dialog.querySelector("[data-lightbox-caption]")!;
+    const stage = dialog.querySelector<HTMLElement>("[data-lightbox-stage]")!;
+    const counter = dialog.querySelector("[data-lightbox-counter]")!;
+    const triggers = [
+      ...document.querySelectorAll<HTMLButtonElement>(
+        "[data-lightbox-trigger]",
+      ),
+    ];
+    let items: HTMLButtonElement[] = [];
+    let current = 0;
+    let lastTrigger: HTMLButtonElement | null = null;
+
+    const show = (index: number) => {
+      current = (index + items.length) % items.length;
+      const t = items[current];
+      img.src = t.dataset.full!;
+      img.alt = t.dataset.caption ?? "";
+      caption.textContent = t.dataset.caption ?? "";
+      const isBefore = t.dataset.when === "before";
+      stage.textContent = t.dataset.when ?? "";
+      stage.className = `font-semibold text-[11px] uppercase tracking-wider px-2.5 py-1 rounded-full ${
+        isBefore ? "bg-cream text-forest" : "bg-teal text-white"
+      }`;
+      counter.textContent = `${current + 1} / ${items.length}`;
+      // Warm the cache for neighbours so arrowing feels instant.
+      [current + 1, current - 1].forEach((n) => {
+        const src = items[(n + items.length) % items.length].dataset.full;
+        if (src) new Image().src = src;
+      });
+    };
+
+    triggers.forEach((trigger) => {
+      trigger.addEventListener("click", () => {
+        items = triggers.filter((t) => !t.closest("li")?.hidden);
+        lastTrigger = trigger;
+        show(items.indexOf(trigger));
+        dialog.showModal();
+      });
+    });
+
+    dialog
+      .querySelector("[data-lightbox-prev]")
+      ?.addEventListener("click", () => show(current - 1));
+    dialog
+      .querySelector("[data-lightbox-next]")
+      ?.addEventListener("click", () => show(current + 1));
+    dialog
+      .querySelector("[data-lightbox-close]")
+      ?.addEventListener("click", () => dialog.close());
+
+    dialog.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") show(current + 1);
+      if (e.key === "ArrowLeft") show(current - 1);
+    });
+
+    // Close when clicking the dark area around the photo.
+    dialog.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement;
+      if (target === dialog || target.hasAttribute("data-lightbox-stage-area")) {
+        dialog.close();
+      }
+    });
+
+    // Swipe on touch devices.
+    let touchX = 0;
+    dialog.addEventListener(
+      "touchstart",
+      (e) => (touchX = e.touches[0].clientX),
+      { passive: true },
+    );
+    dialog.addEventListener("touchend", (e) => {
+      const dx = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 50) show(current + (dx < 0 ? 1 : -1));
+    });
+
+    dialog.addEventListener("close", () => {
+      document.body.style.overflow = "";
+      lastTrigger?.focus();
+    });
+    dialog.addEventListener("toggle", () => {
+      if (dialog.open) document.body.style.overflow = "hidden";
+    });
+  }
+</script>
