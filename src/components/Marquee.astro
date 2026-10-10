@@ -3,55 +3,56 @@ interface Props {
   items: string[];
   speed?: number; // seconds for one full loop
   pauseOnHover?: boolean;
-  gap?: string; // tailwind-style gap, e.g. "1.5rem"
+  gap?: string; // space on each side of the separator, e.g. "1.5rem"
   textClass?: string;
   dotClass?: string;
   separator?: string;
 }
 
-const { 
-  items, 
-  speed = 25, 
-  pauseOnHover = true, 
+const {
+  items,
+  speed = 25,
+  pauseOnHover = true,
   gap = "1.5rem",
   textClass = "font-sans text-[clamp(0.8rem,2vw,1.4rem)] font-normal text-white tracking-[0.01em]",
   dotClass = "text-white text-base",
-  separator = "•"
+  separator = "•",
 } = Astro.props;
 ---
 
-<div class="relative w-full overflow-hidden">
+<!--
+  Seamless loop: the list is rendered twice and the track slides by exactly
+  -50%. For that to line up, both copies must be identical and nothing may sit
+  between them, so every item carries its own trailing separator (including
+  the last), and spacing lives on the separator, not on flex gaps.
+-->
+<div
+  class="marquee relative w-full overflow-hidden"
+  data-pause-on-hover={pauseOnHover ? "" : undefined}
+>
   <div
-    class:list={[
-      "marquee-track flex items-center whitespace-nowrap w-max",
-      pauseOnHover && "hover:[animation-play-state:paused]",
-    ]}
-    style={`--marquee-gap: ${gap}; --marquee-speed: ${speed}s;`}
+    class="marquee-track flex w-max items-center whitespace-nowrap"
+    style={`--marquee-speed: ${speed}s;`}
   >
-    <!-- Render twice for seamless loop -->
     {
       [0, 1].map((copy) => (
-        <div
-          class="flex items-center"
-          style={`gap: ${gap}`}
+        <ul
+          class="flex shrink-0 items-center"
           aria-hidden={copy === 1 ? "true" : undefined}
         >
-          {items.map((item, i) => (
-            <>
-              <span class={textClass}>
-                {item}
+          {items.map((item) => (
+            <li class="flex shrink-0 items-center">
+              <span class={textClass}>{item}</span>
+              <span
+                class={dotClass}
+                style={`margin-inline: ${gap}`}
+                aria-hidden="true"
+              >
+                {separator}
               </span>
-              {i < items.length - 1 && (
-                <span
-                  class={dotClass}
-                  style={`margin-inline: ${gap}`}
-                >
-                  {separator}
-                </span>
-              )}
-            </>
+            </li>
           ))}
-        </div>
+        </ul>
       ))
     }
   </div>
@@ -59,16 +60,23 @@ const {
 
 <style>
   .marquee-track {
-    animation: marqueeScroll var(--marquee-speed) linear infinite;
-    gap: var(--marquee-gap);
+    animation: marquee-scroll var(--marquee-speed) linear infinite;
+    will-change: transform;
+    backface-visibility: hidden;
   }
 
-  @keyframes marqueeScroll {
+  /* Lives here (not as a Tailwind hover: utility) so it isn't outranked by the
+     animation shorthand above, which resets play-state to running. */
+  .marquee[data-pause-on-hover]:hover .marquee-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes marquee-scroll {
     from {
-      transform: translateX(0);
+      transform: translate3d(0, 0, 0);
     }
     to {
-      transform: translateX(-50%);
+      transform: translate3d(-50%, 0, 0);
     }
   }
 
